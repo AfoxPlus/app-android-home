@@ -1,12 +1,14 @@
-package com.afoxplus.module.view
+package com.afoxplus.home.delivery.views.activities
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.afoxplus.module.databinding.ActivityHomeBinding
-import com.afoxplus.module.utils.Converts
+import com.afoxplus.home.databinding.ActivityHomeBinding
+import com.afoxplus.home.delivery.models.ScanVO
+import com.afoxplus.home.utils.Converts
+
 import com.google.zxing.integration.android.IntentIntegrator
 
 class HomeActivity : AppCompatActivity() {
