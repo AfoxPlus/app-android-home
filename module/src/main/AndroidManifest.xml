@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.afoxplus.module">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.afoxplus.home">
+
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
     <application>
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+            android:name="com.afoxplus.home.delivery.views.activities.HomeActivity"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
     </application>
 
 </manifest>

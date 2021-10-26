@@ -66,4 +66,9 @@ dependencies {
     testImplementation(Deps.Test.jUnit)
     androidTestImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
+
+    //Scan
+    implementation(Deps.Arch.zxingAndroid) { isTransitive = false }
+    implementation(Deps.Arch.zxingCore)
+    implementation(Deps.Arch.gson)
 }
