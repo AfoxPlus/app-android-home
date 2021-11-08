@@ -10,6 +10,9 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    env:
+      REPO_USERID: ${{ secrets.REPO_USERID }}
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -33,6 +36,9 @@ jobs:
     name: Unit Test
     needs: [ lint ]
     runs-on: ubuntu-latest
+    env:
+      REPO_USERID: ${{ secrets.REPO_USERID }}
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -56,6 +62,9 @@ jobs:
     name: Coverage Test
     needs: [ unit-test ]
     runs-on: ubuntu-latest
+    env:
+      REPO_USERID: ${{ secrets.REPO_USERID }}
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -82,6 +91,9 @@ jobs:
     name: Analysis Code
     needs: [ jacoco ]
     runs-on: ubuntu-latest
+    env:
+      REPO_USERID: ${{ secrets.REPO_USERID }}
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
