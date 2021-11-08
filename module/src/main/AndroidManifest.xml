@@ -11,6 +11,7 @@
             android:exported="false"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
+            android:theme="@style/UIKit.NoActionBar.Light"
             tools:replace="screenOrientation" />
     </application>
 

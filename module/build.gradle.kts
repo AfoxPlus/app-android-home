@@ -71,4 +71,8 @@ dependencies {
     implementation(Deps.Arch.zxingAndroid) { isTransitive = false }
     implementation(Deps.Arch.zxingCore)
     implementation(Deps.Arch.gson)
+
+    //Negocio
+    implementation(Deps.UI.uikit)
+    implementation(Deps.Arch.products)
 }
