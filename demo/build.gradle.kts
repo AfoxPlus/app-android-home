@@ -56,5 +56,8 @@ dependencies {
     androidTestImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
 
+    //Negocio
+    implementation(Deps.UI.uikit)
+
     implementation(project(mapOf("path" to ":module")))
 }

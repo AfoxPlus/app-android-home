@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.afoxplus.home.R
 import com.afoxplus.home.databinding.ActivityHomeBinding
 import com.afoxplus.home.delivery.models.ScanVO
 import com.afoxplus.home.utils.Converts
+import com.afoxplus.products.databinding.FragmentProductsSaleBindingImpl
 
 import com.google.zxing.integration.android.IntentIntegrator
 
@@ -26,7 +28,15 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupFragments()
         setupListeners()
+    }
+
+    private fun setupFragments() {
+        //TODO agregar fragmento a mostrar
+        /*supportFragmentManager.beginTransaction()
+            .add(R.id.fcvHome, )*/
+
     }
 
     private fun setupListeners() {

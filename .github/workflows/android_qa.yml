@@ -10,6 +10,9 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    env:
+      REPO_USERID: ${{ secrets.REPO_USERID }}
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -33,6 +36,9 @@ jobs:
     name: Unit Test
     needs: [ lint ]
     runs-on: ubuntu-latest
+    env:
+      REPO_USERID: ${{ secrets.REPO_USERID }}
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -56,6 +62,9 @@ jobs:
     name: Coverage Test
     needs: [ unit-test ]
     runs-on: ubuntu-latest
+    env:
+      REPO_USERID: ${{ secrets.REPO_USERID }}
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -82,6 +91,9 @@ jobs:
     name: Analysis Code
     needs: [ jacoco ]
     runs-on: ubuntu-latest
+    env:
+      REPO_USERID: ${{ secrets.REPO_USERID }}
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -97,6 +109,15 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
+      - name: Run lint
+        run: ./gradlew module:lintDebug
+
+      - name: Run tests
+        run: ./gradlew module:testDebugUnitTest
+
+      - name: Run Jacoco Test Report
+        run: ./gradlew module:jacocoTestReport
+
       - name: SonarCloud Scan
         run: ./gradlew module:sonarqube -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.login=${{ secrets.SONARCLOUDTOKEN }}
         env:
@@ -106,6 +127,9 @@ jobs:
     name: Generate Artifact
     needs: [ sonarqube ]
     runs-on: ubuntu-latest
+    env:
+      REPO_USERID: ${{ secrets.REPO_USERID }}
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -117,7 +141,4 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Upload Artifact
-        env:
-          REPO_USERID: ${{ secrets.REPO_USERID }}
-          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: ./gradlew module:publishDebugPublicationToGithubPackagesRepository
