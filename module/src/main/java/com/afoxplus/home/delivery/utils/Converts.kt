@@ -1,4 +1,4 @@
-package com.afoxplus.home.utils
+package com.afoxplus.home.delivery.utils
 
 import com.google.gson.Gson
 
