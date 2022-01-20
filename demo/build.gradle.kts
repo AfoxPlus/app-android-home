@@ -71,8 +71,10 @@ dependencies {
     implementation(Deps.Arch.coroutinesCore)
     implementation(Deps.Arch.hiltAndroid)
     kapt(Deps.Arch.hiltCompiler)
+
     implementation(Deps.Arch.products)
     implementation(Deps.Arch.restaurants)
+    implementation(Deps.Arch.orders)
 
     testImplementation(Deps.Test.jUnit)
     androidTestImplementation(Deps.Test.androidJUnit)
