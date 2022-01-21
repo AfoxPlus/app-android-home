@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -37,7 +38,10 @@ android {
 
     kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
 
-    buildFeatures { viewBinding = true }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
 
     lint {
         isCheckDependencies = true
@@ -46,18 +50,35 @@ android {
 
 dependencies {
     implementation(fileTree("libs") { include(listOf("*.jar", "*.aar")) })
-    implementation(Deps.Jetpack.kotlin)
     implementation(Deps.Jetpack.core)
+    implementation(Deps.Jetpack.kotlin)
+    implementation(Deps.Jetpack.activity)
+    implementation(Deps.Jetpack.fragment)
     implementation(Deps.Jetpack.appcompat)
+
     implementation(Deps.UI.materialDesign)
     implementation(Deps.UI.constraintLayout)
+    implementation(Deps.UI.glide)
+    kapt(Deps.UI.glideCompiler)
+    implementation(Deps.UI.uikit)
+
+    implementation(Deps.Arch.zxingAndroid) { isTransitive = false }
+    implementation(Deps.Arch.zxingCore)
+    implementation(Deps.Arch.network)
+    implementation(Deps.Arch.retrofit2)
+    implementation(Deps.Arch.loggingInterceptor)
+    implementation(Deps.Arch.gson)
+    implementation(Deps.Arch.coroutinesCore)
+    implementation(Deps.Arch.hiltAndroid)
+    kapt(Deps.Arch.hiltCompiler)
+
+    implementation(Deps.Arch.products)
+    implementation(Deps.Arch.restaurants)
+    implementation(Deps.Arch.orders)
 
     testImplementation(Deps.Test.jUnit)
     androidTestImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
-
-    //Negocio
-    implementation(Deps.UI.uikit)
 
     implementation(project(mapOf("path" to ":module")))
 }
