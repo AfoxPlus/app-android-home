@@ -2,7 +2,6 @@ package com.afoxplus.home.delivery.views.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import androidx.activity.viewModels
 import com.afoxplus.home.databinding.ActivityHomeBinding
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
@@ -36,14 +35,6 @@ class HomeActivity : BaseActivity() {
             val intent = Intent(activity, HomeActivity::class.java)
             activity.startActivity(intent)
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setupFragments()
-        setupListeners()
     }
 
     override fun setMainView() {
