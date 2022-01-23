@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ThemeDemo">
+        android:theme="@style/UIKit.Theme">
         <activity
             android:name="com.afoxplus.home.demo.delivery.views.activites.MainActivity"
             android:exported="true"

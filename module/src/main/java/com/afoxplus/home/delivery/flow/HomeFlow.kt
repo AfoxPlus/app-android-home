@@ -17,6 +17,3 @@ internal class HomeFlowImpl @Inject constructor() : HomeFlow {
         HomeActivity.newStartActivity(activity)
     }
 }
-
-
-
