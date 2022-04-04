@@ -87,8 +87,8 @@ class HomeActivity : BaseActivity() {
         data.isNotEmpty().let {
             try {
                 //val scanVO = Converts.stringToObject<ScanVO>(data)
-                //TODO: Send data get from scan goToMarketOrder(activity, scanVO)
-                orderFlow.goToMarketOrder(this)
+                //TODO: Send data get from scan goToMarketOrderActivity(activity, scanVO)
+                orderFlow.goToMarketOrderActivity(this)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
