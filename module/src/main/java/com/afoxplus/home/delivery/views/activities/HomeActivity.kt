@@ -48,7 +48,10 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun observerViewModel() {
-        viewModel.homeRestaurantClicked.observe(this, EventObserver { openScan() })
+        viewModel.homeRestaurantClicked.observe(this) {
+            println("Here - Home: $it")
+            openScan()
+        }
         viewModel.productOfferClicked.observe(this, EventObserver { openScan() })
     }
 

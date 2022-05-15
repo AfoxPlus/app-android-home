@@ -5,14 +5,10 @@ import com.afoxplus.home.delivery.views.activities.HomeActivity
 import javax.inject.Inject
 
 interface HomeFlow {
-    companion object {
-        fun build(): HomeFlow = HomeFlowImpl()
-    }
-
     fun goToHome(activity: Activity)
 }
 
-internal class HomeFlowImpl @Inject constructor() : HomeFlow {
+class HomeFlowAction @Inject constructor() : HomeFlow {
     override fun goToHome(activity: Activity) {
         HomeActivity.newStartActivity(activity)
     }
