@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.activity.viewModels
 import com.afoxplus.home.databinding.ActivityHomeBinding
+import com.afoxplus.home.delivery.utils.Converts
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
 import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.products.delivery.flow.ProductFlow
@@ -11,6 +12,8 @@ import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
 import com.afoxplus.uikit.activities.BaseActivity
 import com.afoxplus.uikit.activities.extensions.addFragmentToActivity
 import com.afoxplus.uikit.bus.EventObserver
+import com.afoxplus.uikit.objects.vendor.Vendor
+import com.afoxplus.uikit.objects.vendor.VendorAction
 import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,6 +33,9 @@ class HomeActivity : BaseActivity() {
     @Inject
     lateinit var orderFlow: OrderFlow
 
+    @Inject
+    lateinit var vendorAction: VendorAction
+
     companion object {
         fun newStartActivity(activity: Activity) {
             val intent = Intent(activity, HomeActivity::class.java)
@@ -48,7 +54,10 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun observerViewModel() {
-        viewModel.homeRestaurantClicked.observe(this, EventObserver { openScan() })
+        viewModel.homeRestaurantClicked.observe(this) {
+            println("Here - Home: $it")
+            openScan()
+        }
         viewModel.productOfferClicked.observe(this, EventObserver { openScan() })
     }
 
@@ -86,8 +95,8 @@ class HomeActivity : BaseActivity() {
     private fun analyzeScanResponse(data: String) {
         data.isNotEmpty().let {
             try {
-                //val scanVO = Converts.stringToObject<ScanVO>(data)
-                //TODO: Send data get from scan goToMarketOrderActivity(activity, scanVO)
+                val vendor = Converts.stringToObject<Vendor>(data)
+                vendorAction.save(vendor)
                 orderFlow.goToMarketOrderActivity(this)
             } catch (e: Exception) {
                 e.printStackTrace()

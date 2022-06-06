@@ -44,7 +44,10 @@ android {
     }
 
     lint {
-        isCheckDependencies = true
+        disable.addAll(listOf("TypographyFractions", "TypographyQuotes"))
+        checkDependencies = true
+        abortOnError = false
+        ignoreWarnings = false
     }
 }
 

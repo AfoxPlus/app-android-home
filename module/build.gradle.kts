@@ -52,7 +52,10 @@ android {
     }
 
     lint {
-        isCheckDependencies = true
+        disable.addAll(listOf("TypographyFractions", "TypographyQuotes"))
+        checkDependencies = true
+        abortOnError = false
+        ignoreWarnings = false
     }
 }
 
@@ -87,4 +90,13 @@ dependencies {
     testImplementation(Deps.Test.jUnit)
     androidTestImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
+
+
+    testImplementation("org.mockito:mockito-core:4.3.1")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("org.mockito:mockito-inline:4.3.1")
+
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    /*testImplementation("androidx.test:core-ktx:1.4.0")*/
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
 }
