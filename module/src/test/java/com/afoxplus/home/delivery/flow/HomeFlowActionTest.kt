@@ -13,12 +13,14 @@ class HomeFlowActionTest {
     private val mockActivity: Activity = mock()
 
     @Test
-    fun `Given a flow When implemented flow Then executed action`() {
-
+    fun `GIVEN a flow WHEN implemented flow THEN executed action`() {
+        //GIVEN
         val sutHomeFlowAction: HomeFlowAction = spy()
 
+        //WHEN
         sutHomeFlowAction.goToHome(mockActivity)
 
+        //THEN
         assertNotNull(sutHomeFlowAction)
         verify(sutHomeFlowAction, times(numInvocations = 1)).goToHome(mockActivity)
     }

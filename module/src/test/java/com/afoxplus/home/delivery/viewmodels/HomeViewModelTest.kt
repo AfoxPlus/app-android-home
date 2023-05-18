@@ -41,78 +41,13 @@ class HomeViewModelTest {
     }
 
     private val mockRestaurant: Restaurant = Restaurant(
-        "123", "Viky", "description", "",
-        RegistrationState("", ""), 0
+        code = "123",
+        name = "Viky",
+        description = "description",
+        urlImageLogo = "",
+        registrationState = RegistrationState("", ""),
+        itemViewType = 0
     )
-
-    /*@InternalCoroutinesApi
-    @Test
-    fun oka() {
-        testCoroutineRule.runBlockingTest {
-
-            val restaurant: Restaurant = object : Restaurant {
-                override val code: String
-                    get() = "123"
-                override val description: String
-                    get() = "Restaurant de Doña Viky"
-                override var itemViewType: Int
-                    get() = 123
-                    set(value) {}
-                override val name: String
-                    get() = "Doña Viky"
-                override val registrationState: RegistrationState
-                    get() = object : RegistrationState {
-                        override val code: String
-                            get() = "123"
-                        override val state: String
-                            get() = "state"
-
-                        override fun describeContents(): Int {
-                            return 0
-                        }
-
-                        override fun writeToParcel(dest: Parcel?, flags: Int) {
-                            println("helouda!")
-                        }
-
-                    }
-                override val urlImageLogo: String
-                    get() = ""
-
-                override fun describeContents(): Int {
-                    return 1
-                }
-
-                override fun writeToParcel(dest: Parcel?, flags: Int) {
-                    println("nosepo!")
-                }
-            }
-
-
-            val flowEventBus = flow<EventBus> {
-                emit(OnClickRestaurantHomeEvent.build(restaurant = restaurant))
-            }
-
-            sutHomeVieWModel = HomeViewModel(mockProductEventBus, mockDispatcher)
-
-            whenever(mockProductEventBus.subscribe()).doReturn(flowEventBus)
-
-            //sutHomeVieWModel.helouda()
-
-            val eventBus = mockProductEventBus.subscribe()
-            println("Here - eventBus: $eventBus")
-
-            eventBus.collectLatest {
-                println("Here - inside! $it")
-                Assert.assertNotNull(it)
-                *//*val algo = sutHomeVieWModel.homeRestaurantClicked.getOrAwaitValue()
-                println("Here - $algo")*//*
-            }
-
-            Assert.assertTrue(true)
-
-        }
-    }*/
 
     @Test
     fun lestGo() {
