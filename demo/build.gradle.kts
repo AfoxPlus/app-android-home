@@ -84,6 +84,10 @@ android {
         abortOnError = false
         ignoreWarnings = false
     }
+
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
@@ -118,11 +122,12 @@ dependencies {
     androidTestImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
 
+    //Business Dependencies
     implementation(Deps.Arch.products)
     implementation(Deps.Arch.restaurants)
     implementation(Deps.Arch.orders)
     implementation(Deps.UI.uikit)
 
+    LocalModules.setupBuildGradle(this, rootProject, "home")
     implementation(project(mapOf("path" to ":module")))
-
 }

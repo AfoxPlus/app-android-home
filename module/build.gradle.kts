@@ -84,6 +84,10 @@ android {
             withJavadocJar()
         }
     }
+
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
@@ -125,8 +129,11 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.0")
 
+    //Business Dependencies
     implementation(Deps.Arch.products)
     implementation(Deps.Arch.restaurants)
     implementation(Deps.Arch.orders)
     implementation(Deps.UI.uikit)
+
+    LocalModules.setupBuildGradle(this, rootProject,"home")
 }

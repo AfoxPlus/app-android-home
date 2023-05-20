@@ -2,7 +2,7 @@
 
 ![GithubActions](https://github.com/afoxplus/app-android-home/actions/workflows/android_publish.yml/badge.svg?branch=master) ![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=afoxplus-app-android-home&metric=alert_status)
 
-app-androi-home It is the bookstore that is in charge of showing the information of products, orders, restaurants, etc. in the home.
+app-android-home It is the bookstore that is in charge of showing the information of products, orders, restaurants, etc. in the home.
 
 ## Setup
 
@@ -12,6 +12,7 @@ Create gradle.properties file in the root of your user's .gradle:
  REPO_USERID_AFOXPLUS=****  
  REPO_TOKEN_AFOXPLUS=****  
  SONARCLOUDTOKEN=****   
+ IS_LOCAL=true
  ```  
 
 Run the following git commands:
