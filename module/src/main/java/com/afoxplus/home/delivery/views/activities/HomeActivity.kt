@@ -14,7 +14,9 @@ import com.afoxplus.uikit.activities.extensions.addFragmentToActivity
 import com.afoxplus.uikit.bus.EventObserver
 import com.afoxplus.uikit.objects.vendor.Vendor
 import com.afoxplus.uikit.objects.vendor.VendorAction
-import com.google.zxing.integration.android.IntentIntegrator
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -22,7 +24,15 @@ import javax.inject.Inject
 class HomeActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
+
     private val viewModel: HomeViewModel by viewModels()
+
+    private val barcodeLauncher =
+        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+            result.contents?.let {
+                analyzeScanResponse(it)
+            }
+        }
 
     @Inject
     lateinit var productFlow: ProductFlow
@@ -81,15 +91,15 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun openScan() {
-        val integrator = IntentIntegrator(this).apply {
-            setPrompt("Scan a barcode")
+        val options = ScanOptions().apply {
+            setPrompt("Scan a Restaurant")
             setCameraId(0)
             setBeepEnabled(false)
             setTorchEnabled(false)
-            setBarcodeImageEnabled(true)
-            setOrientationLocked(true)
+            setBarcodeImageEnabled(false)
+            setOrientationLocked(false)
         }
-        integrator.initiateScan()
+        barcodeLauncher.launch(options)
     }
 
     private fun analyzeScanResponse(data: String) {
@@ -101,17 +111,6 @@ class HomeActivity : BaseActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null) {
-            result.contents?.let {
-                analyzeScanResponse(it)
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
         }
     }
 }
