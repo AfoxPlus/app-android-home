@@ -1,4 +1,4 @@
-package com.afoxplus.module
+package com.afoxplus.home
 
 import org.junit.Test
 

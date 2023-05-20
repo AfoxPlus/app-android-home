@@ -1,34 +1,47 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
-    id("maven-publish")
+    id("com.android.library") version "7.3.1"
+    id("org.jetbrains.kotlin.android") version "1.7.20"
+    id("org.jetbrains.kotlin.kapt") version "1.7.20"
+    id("com.google.dagger.hilt.android") version "2.44.2"
+    id("org.jetbrains.kotlin.plugin.parcelize") version "1.7.20"
+    id("org.sonarqube") version "3.3"
+    id("jacoco")
 }
 
-apply(from = "sonarqube.gradle")
-apply(from = "jacoco.gradle")
-apply(from = "upload.gradle")
+apply {
+    from("sonarqube.gradle")
+    from("jacoco.gradle")
+    from("upload.gradle")
+}
 
 android {
+    namespace = "com.afoxplus.home"
     compileSdk = Versions.compileSdkVersion
-    buildToolsVersion = Versions.buildToolsVersion
 
     defaultConfig {
         minSdk = Versions.minSdkVersion
         targetSdk = Versions.targetSdkVersion
         testInstrumentationRunner = Versions.testInstrumentationRunner
         consumerProguardFiles("consumer-rules.pro")
+        renderscriptSupportModeEnabled = true
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "EXAMPLE_FIELD", "\"example-release\"")
+        }
+
+        create("staging") {
+            initWith(getByName("debug"))
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
 
         getByName("debug") {
@@ -37,7 +50,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "EXAMPLE_FIELD", "\"example-debug\"")
         }
     }
 
@@ -51,19 +63,77 @@ android {
     buildFeatures { viewBinding = true }
 
     lint {
-        isCheckDependencies = true
+        disable.addAll(
+            listOf(
+                "TypographyFractions",
+                "TypographyQuotes",
+                "JvmStaticProvidesInObjectDetector",
+                "FieldSiteTargetOnQualifierAnnotation",
+                "ModuleCompanionObjects",
+                "ModuleCompanionObjectsNotInModuleParent"
+            )
+        )
+        checkDependencies = true
+        abortOnError = false
+        ignoreWarnings = false
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+
+    hilt {
+        enableAggregatingTask = true
     }
 }
 
 dependencies {
     implementation(fileTree("libs") { include(listOf("*.jar", "*.aar")) })
-    implementation(Deps.Jetpack.kotlin)
+
     implementation(Deps.Jetpack.core)
     implementation(Deps.Jetpack.appcompat)
+
+    implementation(Deps.Jetpack.activity)
+    implementation(Deps.Jetpack.fragment)
+
     implementation(Deps.UI.materialDesign)
     implementation(Deps.UI.constraintLayout)
+
+    implementation(Deps.UI.glide)
+    kapt(Deps.UI.glideCompiler)
+
+    implementation(Deps.Arch.network)
+    implementation(Deps.Arch.retrofit2)
+    implementation(Deps.Arch.loggingInterceptor)
+    implementation(Deps.Arch.gson)
+
+    implementation(Deps.Arch.coroutinesCore)
+
+    implementation(Deps.Arch.hiltAndroid)
+    kapt(Deps.Arch.hiltCompiler)
+
+    implementation(Deps.Arch.zxingAndroid) { isTransitive = false }
+    implementation(Deps.Arch.zxingCore)
 
     testImplementation(Deps.Test.jUnit)
     androidTestImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
+
+    testImplementation("org.mockito:mockito-core:4.3.1")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("org.mockito:mockito-inline:4.3.1")
+
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.0")
+
+    //Business Dependencies
+    implementation(Deps.Arch.products)
+    implementation(Deps.Arch.restaurants)
+    implementation(Deps.Arch.orders)
+    implementation(Deps.UI.uikit)
+
+    LocalModules.setupBuildGradle(this, rootProject,"home")
 }
