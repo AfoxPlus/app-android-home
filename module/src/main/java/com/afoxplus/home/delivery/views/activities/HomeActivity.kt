@@ -9,11 +9,11 @@ import com.afoxplus.home.delivery.viewmodels.HomeViewModel
 import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.products.delivery.flow.ProductFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
-import com.afoxplus.uikit.activities.BaseActivity
+import com.afoxplus.uikit.activities.UIKitBaseActivity
 import com.afoxplus.uikit.activities.extensions.addFragmentToActivity
-import com.afoxplus.uikit.bus.EventObserver
+import com.afoxplus.uikit.bus.UIKitEventObserver
 import com.afoxplus.uikit.objects.vendor.Vendor
-import com.afoxplus.uikit.objects.vendor.VendorAction
+import com.afoxplus.uikit.objects.vendor.VendorShared
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -21,14 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeActivity : BaseActivity() {
+class HomeActivity : UIKitBaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private val barcodeLauncher =
-        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+    private val barcodeLauncher = registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             result.contents?.let {
                 analyzeScanResponse(it)
             }
@@ -44,7 +43,7 @@ class HomeActivity : BaseActivity() {
     lateinit var orderFlow: OrderFlow
 
     @Inject
-    lateinit var vendorAction: VendorAction
+    lateinit var vendorShared: VendorShared
 
     companion object {
         fun newStartActivity(activity: Activity) {
@@ -68,7 +67,7 @@ class HomeActivity : BaseActivity() {
             println("Here - Home: $it")
             openScan()
         }
-        viewModel.productOfferClicked.observe(this, EventObserver { openScan() })
+        viewModel.productOfferClicked.observe(this, UIKitEventObserver { openScan() })
     }
 
     private fun setupFragments() {
@@ -106,7 +105,7 @@ class HomeActivity : BaseActivity() {
         data.isNotEmpty().let {
             try {
                 val vendor = Converts.stringToObject<Vendor>(data)
-                vendorAction.save(vendor)
+                vendorShared.save(vendor)
                 orderFlow.goToMarketOrderActivity(this)
             } catch (e: Exception) {
                 e.printStackTrace()
