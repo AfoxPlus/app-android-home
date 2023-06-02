@@ -3,6 +3,7 @@ package com.afoxplus.home.delivery.views.activities
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.viewModels
+import com.afoxplus.home.R
 import com.afoxplus.home.databinding.ActivityHomeBinding
 import com.afoxplus.home.delivery.utils.Converts
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
@@ -27,7 +28,8 @@ class HomeActivity : UIKitBaseActivity() {
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private val barcodeLauncher = registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+    private val barcodeLauncher =
+        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             result.contents?.let {
                 analyzeScanResponse(it)
             }
@@ -64,7 +66,6 @@ class HomeActivity : UIKitBaseActivity() {
 
     override fun observerViewModel() {
         viewModel.homeRestaurantClicked.observe(this) {
-            println("Here - Home: $it")
             openScan()
         }
         viewModel.productOfferClicked.observe(this, UIKitEventObserver { openScan() })
@@ -91,7 +92,7 @@ class HomeActivity : UIKitBaseActivity() {
 
     private fun openScan() {
         val options = ScanOptions().apply {
-            setPrompt("Scan a Restaurant")
+            setPrompt(getString(R.string.home_scan_prompt))
             setCameraId(0)
             setBeepEnabled(false)
             setTorchEnabled(false)
