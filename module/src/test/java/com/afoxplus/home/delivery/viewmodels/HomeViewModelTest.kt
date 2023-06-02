@@ -4,10 +4,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.afoxplus.home.utils.TestCoroutineRule
+import com.afoxplus.home.utils.UIKitCoroutineDispatcherTest
 import com.afoxplus.restaurants.delivery.flow.RestaurantBridge
 import com.afoxplus.restaurants.entities.RegistrationState
 import com.afoxplus.restaurants.entities.Restaurant
-import com.afoxplus.uikit.bus.EventBusListener
+import com.afoxplus.uikit.bus.UIKitEventBusWrapper
+import com.afoxplus.uikit.di.UIKitCoroutineDispatcher
+
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,17 +30,18 @@ class HomeViewModelTest {
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private val mockProductEventBus: EventBusListener = mock()
+    private val mockProductEventBus: UIKitEventBusWrapper = mock()
 
     private val mockRestaurantBridge: RestaurantBridge = mock()
 
-    private val mockDispatcher: CoroutineDispatcher by lazy { Dispatchers.Main }
-
     private lateinit var sutHomeVieWModel: HomeViewModel
+
+    private lateinit var coroutines: UIKitCoroutineDispatcher
 
     @Before
     fun setup() {
-        sutHomeVieWModel = HomeViewModel(mockProductEventBus, mockRestaurantBridge, mockDispatcher)
+        coroutines = UIKitCoroutineDispatcherTest()
+        sutHomeVieWModel = HomeViewModel(mockProductEventBus, mockRestaurantBridge, coroutines)
     }
 
     private val mockRestaurant: Restaurant = Restaurant(
