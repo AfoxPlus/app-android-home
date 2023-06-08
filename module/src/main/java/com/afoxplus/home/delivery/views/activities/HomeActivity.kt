@@ -3,9 +3,9 @@ package com.afoxplus.home.delivery.views.activities
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.afoxplus.home.R
 import com.afoxplus.home.databinding.ActivityHomeBinding
-import com.afoxplus.home.delivery.utils.Converts
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
 import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.products.delivery.flow.ProductFlow
@@ -13,12 +13,12 @@ import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
 import com.afoxplus.uikit.activities.UIKitBaseActivity
 import com.afoxplus.uikit.activities.extensions.addFragmentToActivity
 import com.afoxplus.uikit.bus.UIKitEventObserver
-import com.afoxplus.uikit.objects.vendor.Vendor
 import com.afoxplus.uikit.objects.vendor.VendorShared
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -69,6 +69,16 @@ class HomeActivity : UIKitBaseActivity() {
             openScan()
         }
         viewModel.productOfferClicked.observe(this, UIKitEventObserver { openScan() })
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.navigation.collectLatest { navigation ->
+                when (navigation) {
+                    HomeViewModel.Navigation.GoToMarketOrder -> orderFlow.goToMarketOrderActivity(
+                        this@HomeActivity
+                    )
+                }
+            }
+        }
     }
 
     private fun setupFragments() {
@@ -103,14 +113,6 @@ class HomeActivity : UIKitBaseActivity() {
     }
 
     private fun analyzeScanResponse(data: String) {
-        data.isNotEmpty().let {
-            try {
-                val vendor = Converts.stringToObject<Vendor>(data)
-                vendorShared.save(vendor)
-                orderFlow.goToMarketOrderActivity(this)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        data.isNotEmpty().let { viewModel.onScanResponse(data) }
     }
 }
