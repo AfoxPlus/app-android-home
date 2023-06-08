@@ -3,6 +3,7 @@ package com.afoxplus.home.delivery.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.afoxplus.home.usecases.actions.SetDataToContext
 import com.afoxplus.home.utils.TestCoroutineRule
 import com.afoxplus.home.utils.UIKitCoroutineDispatcherTest
 import com.afoxplus.restaurants.delivery.flow.RestaurantBridge
@@ -14,11 +15,13 @@ import com.afoxplus.uikit.di.UIKitCoroutineDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 @ExperimentalCoroutinesApi
@@ -34,6 +37,8 @@ class HomeViewModelTest {
 
     private val mockRestaurantBridge: RestaurantBridge = mock()
 
+    private val mockSetDataToContext: SetDataToContext = mock()
+
     private lateinit var sutHomeVieWModel: HomeViewModel
 
     private lateinit var coroutines: UIKitCoroutineDispatcher
@@ -41,7 +46,12 @@ class HomeViewModelTest {
     @Before
     fun setup() {
         coroutines = UIKitCoroutineDispatcherTest()
-        sutHomeVieWModel = HomeViewModel(mockProductEventBus, mockRestaurantBridge, coroutines)
+        sutHomeVieWModel = HomeViewModel(
+            mockProductEventBus,
+            mockRestaurantBridge,
+            mockSetDataToContext,
+            coroutines
+        )
     }
 
     private val mockRestaurant: Restaurant = Restaurant(
@@ -74,6 +84,13 @@ class HomeViewModelTest {
         assertNotNull(asd)
         println("Here - T4")
         verify(mockRestaurantBridge, times(numInvocations = 1)).fetchRestaurant()*/
+    }
+
+    @Test
+    fun `should execute use case when call onScanResponse`() = runTest {
+        val data = ""
+        sutHomeVieWModel.onScanResponse(data)
+        verify(mockSetDataToContext).invoke(data)
     }
 
 
