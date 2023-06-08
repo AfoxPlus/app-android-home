@@ -16,7 +16,7 @@ internal class SetDataToContextUseCase @Inject constructor(
         try {
             val vendor = Converts.stringToObject<Vendor>(data)
             setToContextRestaurantUseCase(code = vendor.restaurantId).let { restaurant ->
-                vendor.additionalInfo[RESTAURANT_NAME] = restaurant.name
+                vendor.additionalInfo = mutableMapOf(RESTAURANT_NAME to restaurant.name)
                 vendorShared.save(vendor)
             }
         } catch (ex: Exception) {

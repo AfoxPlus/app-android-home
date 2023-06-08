@@ -122,13 +122,6 @@ dependencies {
     androidTestImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
 
-    testImplementation("org.mockito:mockito-core:4.3.1")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
-    testImplementation("org.mockito:mockito-inline:4.3.1")
-
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.0")
-
     //Business Dependencies
     implementation(Deps.Arch.products)
     implementation(Deps.Arch.restaurants)
