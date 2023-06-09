@@ -1,16 +1,17 @@
 package com.afoxplus.home.usecases
 
-import com.afoxplus.home.usecases.actions.SetDataToContext
+import com.afoxplus.home.usecases.actions.SetContextFromScanQR
 import com.afoxplus.home.utils.Converts
+import com.afoxplus.home.utils.RESTAURANT_NAME
 import com.afoxplus.restaurants.usecases.FindAndSetToContextRestaurantUseCase
 import com.afoxplus.uikit.objects.vendor.Vendor
 import com.afoxplus.uikit.objects.vendor.VendorShared
 import javax.inject.Inject
 
-internal class SetDataToContextUseCase @Inject constructor(
+internal class SetContextFromScanQRUseCase @Inject constructor(
     private val setToContextRestaurantUseCase: FindAndSetToContextRestaurantUseCase,
     private val vendorShared: VendorShared
-) : SetDataToContext {
+) : SetContextFromScanQR {
 
     override suspend fun invoke(data: String) {
         try {
@@ -22,9 +23,5 @@ internal class SetDataToContextUseCase @Inject constructor(
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
-    }
-
-    companion object {
-        private const val RESTAURANT_NAME = "restaurant_name"
     }
 }
