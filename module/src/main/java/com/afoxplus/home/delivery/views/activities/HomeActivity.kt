@@ -12,7 +12,6 @@ import com.afoxplus.products.delivery.flow.ProductFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
 import com.afoxplus.uikit.activities.UIKitBaseActivity
 import com.afoxplus.uikit.activities.extensions.addFragmentToActivity
-import com.afoxplus.uikit.bus.UIKitEventObserver
 import com.afoxplus.uikit.objects.vendor.VendorShared
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -65,10 +64,9 @@ class HomeActivity : UIKitBaseActivity() {
     }
 
     override fun observerViewModel() {
-        viewModel.homeRestaurantClicked.observe(this) {
-            openScan()
+        lifecycleScope.launchWhenCreated {
+            viewModel.onOpenScanEvent.collectLatest { openScan() }
         }
-        viewModel.productOfferClicked.observe(this, UIKitEventObserver { openScan() })
 
         lifecycleScope.launchWhenCreated {
             viewModel.navigation.collectLatest { navigation ->
