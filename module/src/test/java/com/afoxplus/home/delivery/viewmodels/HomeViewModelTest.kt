@@ -2,6 +2,7 @@ package com.afoxplus.home.delivery.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.afoxplus.home.usecases.actions.SetContextFromScanQR
+import com.afoxplus.home.usecases.actions.SetContextWithDelivery
 import com.afoxplus.home.utils.TestCoroutineRule
 import com.afoxplus.home.utils.UIKitCoroutineDispatcherTest
 import com.afoxplus.uikit.bus.UIKitEventBusWrapper
@@ -24,6 +25,8 @@ class HomeViewModelTest {
 
     private val mockSetContextFromScanQR: SetContextFromScanQR = mock()
 
+    private val setContextWithDelivery: SetContextWithDelivery = mock()
+
     private lateinit var sutHomeVieWModel: HomeViewModel
 
     private lateinit var coroutines: UIKitCoroutineDispatcher
@@ -34,6 +37,7 @@ class HomeViewModelTest {
         sutHomeVieWModel = HomeViewModel(
             mockProductEventBus,
             mockSetContextFromScanQR,
+            setContextWithDelivery,
             coroutines
         )
     }
