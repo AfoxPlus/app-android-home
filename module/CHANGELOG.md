@@ -1,5 +1,9 @@
 # app-android-home Changelog
 
+## Version 3.0.7
+### Fix
+- Se modifico setupFragments.
+
 ## Version 3.0.6
 ### Added
 - Se modifico cambio la carga de getStateOrdersFragment en setupFragments en HomeActivity.

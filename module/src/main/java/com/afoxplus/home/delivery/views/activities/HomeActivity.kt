@@ -17,8 +17,8 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class HomeActivity : UIKitBaseActivity() {
@@ -84,11 +84,6 @@ class HomeActivity : UIKitBaseActivity() {
             supportFragmentManager,
             orderFlow.getStateOrdersFragment(),
             binding.fcvStatusOrders.id
-        )
-        addFragmentToActivity(
-            supportFragmentManager,
-            productFlow.getProductHomeOfferFragment(),
-            binding.fcvProducts.id
         )
         addFragmentToActivity(
             supportFragmentManager,
