@@ -79,18 +79,12 @@ class HomeActivity : UIKitBaseActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        lifecycleScope.launchWhenResumed {
-            addFragmentToActivity(
-                supportFragmentManager,
-                orderFlow.getStateOrdersFragment(),
-                binding.fcvStatusOrders.id
-            )
-        }
-    }
-
     private fun setupFragments() {
+        addFragmentToActivity(
+            supportFragmentManager,
+            orderFlow.getStateOrdersFragment(),
+            binding.fcvStatusOrders.id
+        )
         addFragmentToActivity(
             supportFragmentManager,
             productFlow.getProductHomeOfferFragment(),
