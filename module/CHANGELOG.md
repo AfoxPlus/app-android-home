@@ -1,5 +1,10 @@
 # app-android-home Changelog
 
+## Version 3.0.6
+### Added
+- Se modifico cambio la carga de getStateOrdersFragment en setupFragments en HomeActivity.
+- Se agrego Scroll para activity_home.
+
 ## Version 3.0.5
 ### Added
 - Se agrego fragmento para el estado de las ordenes.
