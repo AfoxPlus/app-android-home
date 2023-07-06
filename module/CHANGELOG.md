@@ -1,5 +1,9 @@
 # app-android-home Changelog
 
+## Version 3.0.8
+### Fix
+- Se removio el guideline.
+
 ## Version 3.0.7
 ### Fix
 - Se modifico setupFragments.

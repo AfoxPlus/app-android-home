@@ -30,20 +30,12 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcvStatusOrders"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-
-            app:layout_constraintBottom_toTopOf="@id/guideline"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/dark_02" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.4" />
+            tools:background="@color/dark_02"
+            tools:layout_height="150dp" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcvRestaurants"
@@ -53,7 +45,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/fcvStatusOrders"
             tools:background="@color/red_01" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
