@@ -128,6 +128,11 @@ dependencies {
     implementation(Deps.Arch.orders)
     implementation(Deps.UI.uikit)
 
+    // Chucker
+    debugImplementation(Deps.Arch.chucker)
+    "stagingImplementation"(Deps.Arch.chucker)
+    releaseImplementation(Deps.Arch.chuckerNoOp)
+
     LocalModules.setupBuildGradle(this, rootProject, "home")
     implementation(project(mapOf("path" to ":module")))
 }

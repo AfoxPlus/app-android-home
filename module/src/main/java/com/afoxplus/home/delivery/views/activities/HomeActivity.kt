@@ -3,25 +3,25 @@ package com.afoxplus.home.delivery.views.activities
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.afoxplus.home.R
 import com.afoxplus.home.databinding.ActivityHomeBinding
-import com.afoxplus.home.delivery.utils.Converts
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
 import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.products.delivery.flow.ProductFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
-import com.afoxplus.uikit.activities.BaseActivity
+import com.afoxplus.uikit.activities.UIKitBaseActivity
 import com.afoxplus.uikit.activities.extensions.addFragmentToActivity
-import com.afoxplus.uikit.bus.EventObserver
-import com.afoxplus.uikit.objects.vendor.Vendor
-import com.afoxplus.uikit.objects.vendor.VendorAction
+import com.afoxplus.uikit.objects.vendor.VendorShared
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class HomeActivity : BaseActivity() {
+class HomeActivity : UIKitBaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -44,7 +44,7 @@ class HomeActivity : BaseActivity() {
     lateinit var orderFlow: OrderFlow
 
     @Inject
-    lateinit var vendorAction: VendorAction
+    lateinit var vendorShared: VendorShared
 
     companion object {
         fun newStartActivity(activity: Activity) {
@@ -64,18 +64,26 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun observerViewModel() {
-        viewModel.homeRestaurantClicked.observe(this) {
-            println("Here - Home: $it")
-            openScan()
+        lifecycleScope.launchWhenCreated {
+            viewModel.onOpenScanEvent.collectLatest { openScan() }
         }
-        viewModel.productOfferClicked.observe(this, EventObserver { openScan() })
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.navigation.collectLatest { navigation ->
+                when (navigation) {
+                    HomeViewModel.Navigation.GoToMarketOrder -> orderFlow.goToMarketOrderActivity(
+                        this@HomeActivity
+                    )
+                }
+            }
+        }
     }
 
     private fun setupFragments() {
         addFragmentToActivity(
             supportFragmentManager,
-            productFlow.getProductHomeOfferFragment(),
-            binding.fcvProducts.id
+            orderFlow.getStateOrdersFragment(),
+            binding.fcvStatusOrders.id
         )
         addFragmentToActivity(
             supportFragmentManager,
@@ -92,7 +100,7 @@ class HomeActivity : BaseActivity() {
 
     private fun openScan() {
         val options = ScanOptions().apply {
-            setPrompt("Scan a Restaurant")
+            setPrompt(getString(R.string.home_scan_prompt))
             setCameraId(0)
             setBeepEnabled(false)
             setTorchEnabled(false)
@@ -103,14 +111,6 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun analyzeScanResponse(data: String) {
-        data.isNotEmpty().let {
-            try {
-                val vendor = Converts.stringToObject<Vendor>(data)
-                vendorAction.save(vendor)
-                orderFlow.goToMarketOrderActivity(this)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        data.isNotEmpty().let { viewModel.onScanResponse(data) }
     }
 }

@@ -1,47 +1,63 @@
 package com.afoxplus.home.delivery.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.afoxplus.home.usecases.actions.SetContextFromScanQR
+import com.afoxplus.home.usecases.actions.SetContextWithDelivery
 import com.afoxplus.products.delivery.views.events.OnClickProductOfferEvent
-import com.afoxplus.restaurants.delivery.flow.RestaurantBridge
+import com.afoxplus.restaurants.delivery.views.events.OnClickDeliveryEvent
+import com.afoxplus.restaurants.delivery.views.events.OnClickRestaurantHomeEvent
 import com.afoxplus.restaurants.entities.Restaurant
-import com.afoxplus.uikit.bus.Event
-import com.afoxplus.uikit.bus.EventBusListener
-import com.afoxplus.uikit.di.UIKitMainDispatcher
+import com.afoxplus.uikit.bus.UIKitEventBusWrapper
+import com.afoxplus.uikit.di.UIKitCoroutineDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val productEventBus: EventBusListener,
-    private val restaurantBridge: RestaurantBridge,
-    @UIKitMainDispatcher private val dispatcherMain: CoroutineDispatcher
+internal class HomeViewModel @Inject constructor(
+    private val eventBus: UIKitEventBusWrapper,
+    private val setContextFromScanQR: SetContextFromScanQR,
+    private val setContextWithDelivery: SetContextWithDelivery,
+    private val coroutines: UIKitCoroutineDispatcher
 ) : ViewModel() {
 
-    private val mHomeRestaurantClicked: MutableLiveData<Restaurant> by lazy { MutableLiveData<Restaurant>() }
-    val homeRestaurantClicked: LiveData<Restaurant> get() = mHomeRestaurantClicked
+    private val mNavigation: MutableSharedFlow<Navigation> by lazy { MutableSharedFlow() }
+    val navigation: SharedFlow<Navigation> get() = mNavigation
 
-    private val mProductOfferClicked: MutableLiveData<Event<Unit>> by lazy { MutableLiveData<Event<Unit>>() }
-    val productOfferClicked: LiveData<Event<Unit>> get() = mProductOfferClicked
+    val onOpenScanEvent = eventBus.getBusEventFlow().flowOn(coroutines.getMainDispatcher())
+        .filter { event -> event is OnClickRestaurantHomeEvent || event is OnClickProductOfferEvent }
+        .shareIn(scope = viewModelScope, started = SharingStarted.Eagerly)
 
     init {
-        viewModelScope.launch(dispatcherMain) {
-            restaurantBridge.fetchRestaurant().observeForever { restaurant ->
-                mHomeRestaurantClicked.postValue(restaurant)
-            }
+        viewModelScope.launch(coroutines.getMainDispatcher()) {
+            eventBus.getBusEventFlow()
+                .filter { event -> event is OnClickDeliveryEvent }
+                .map { event -> event as OnClickDeliveryEvent }
+                .collectLatest { event -> setContextDeliveryAndGoToMarket(event.restaurant) }
+        }
+    }
+
+    fun onScanResponse(data: String) = viewModelScope.launch(coroutines.getMainDispatcher()) {
+        setContextFromScanQR(data)
+        mNavigation.emit(Navigation.GoToMarketOrder)
+    }
+
+    private fun setContextDeliveryAndGoToMarket(restaurant: Restaurant) =
+        viewModelScope.launch(coroutines.getMainDispatcher()) {
+            setContextWithDelivery(restaurant)
+            mNavigation.emit(Navigation.GoToMarketOrder)
         }
 
-        viewModelScope.launch(dispatcherMain) {
-            productEventBus.subscribe().collectLatest { event ->
-                if (event is OnClickProductOfferEvent) {
-                    mProductOfferClicked.postValue(Event(Unit))
-                }
-            }
-        }
+    sealed class Navigation {
+        object GoToMarketOrder : Navigation()
     }
 }
