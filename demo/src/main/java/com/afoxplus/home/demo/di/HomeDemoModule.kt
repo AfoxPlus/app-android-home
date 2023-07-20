@@ -1,7 +1,7 @@
 package com.afoxplus.home.demo.di
 
-import com.afoxplus.home.demo.global.AppPropertiesDemo
-import com.afoxplus.network.global.AppProperties
+import com.afoxplus.home.demo.global.HomeStartDemoFlow
+import com.afoxplus.module.delivery.flow.StartDemoFlow
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,5 +12,5 @@ import dagger.hilt.components.SingletonComponent
 interface HomeDemoModule {
 
     @Binds
-    fun bindAppProperties(demo: AppPropertiesDemo): AppProperties
+    fun bindStartDemoFlow(demo: HomeStartDemoFlow): StartDemoFlow
 }
