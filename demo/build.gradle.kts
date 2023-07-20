@@ -127,6 +127,7 @@ dependencies {
     implementation(Deps.Arch.restaurants)
     implementation(Deps.Arch.orders)
     implementation(Deps.UI.uikit)
+    implementation(Deps.Arch.demo_config)
 
     // Chucker
     debugImplementation(Deps.Arch.chucker)
