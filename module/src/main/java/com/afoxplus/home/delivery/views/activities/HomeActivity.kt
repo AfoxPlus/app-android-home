@@ -67,7 +67,7 @@ class HomeActivity : UIKitBaseActivity() {
 
     override fun observerViewModel() {
         lifecycleScope.launchWhenCreated {
-            viewModel.onEventBusListener.collectLatest { events ->
+            viewModel.onEventBusListener.collect { events ->
                 when (events) {
                     is OnClickRestaurantHomeEvent -> {
                         openScan()
@@ -76,15 +76,9 @@ class HomeActivity : UIKitBaseActivity() {
                     is OnClickDeliveryEvent -> {
                         viewModel.setContextDeliveryAndGoToMarket(events.restaurant)
                     }
-
-                    /*is GoToHomeEvent  -> {
-//TODO
-                    }*/
                 }
             }
         }
-
-
 
         lifecycleScope.launchWhenCreated {
             viewModel.navigation.collectLatest { navigation ->
