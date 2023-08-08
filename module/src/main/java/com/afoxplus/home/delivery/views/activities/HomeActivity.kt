@@ -8,13 +8,11 @@ import com.afoxplus.home.R
 import com.afoxplus.home.databinding.ActivityHomeBinding
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
 import com.afoxplus.orders.delivery.flow.OrderFlow
-import com.afoxplus.products.delivery.flow.ProductFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
 import com.afoxplus.restaurants.delivery.views.events.OnClickDeliveryEvent
 import com.afoxplus.restaurants.delivery.views.events.OnClickRestaurantHomeEvent
 import com.afoxplus.uikit.activities.UIKitBaseActivity
 import com.afoxplus.uikit.activities.extensions.addFragmentToActivity
-import com.afoxplus.uikit.objects.vendor.VendorShared
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -37,16 +35,11 @@ class HomeActivity : UIKitBaseActivity() {
         }
 
     @Inject
-    lateinit var productFlow: ProductFlow
-
-    @Inject
     lateinit var restaurantFlow: RestaurantFlow
 
     @Inject
     lateinit var orderFlow: OrderFlow
 
-    @Inject
-    lateinit var vendorShared: VendorShared
 
     companion object {
         fun newStartActivity(activity: Activity) {
