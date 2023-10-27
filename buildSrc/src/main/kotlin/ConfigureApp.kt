@@ -5,5 +5,5 @@ object ConfigureApp {
     const val applicationId = "app.android.home"
     const val groupId = "com.afoxplus.android"
     const val artifactId = "home"
-    const val version = "3.0.8"
+    const val version = "6.0.0"
 }
