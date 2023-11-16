@@ -1,9 +1,8 @@
 object ConfigureApp {
     const val urlRepoDependencies = "https://maven.pkg.github.com/afoxplus/app-yalisto-android"
-    const val organization = "afoxplus"
-    const val projectName = "app-android-home"
-    const val applicationId = "app.android.home"
     const val groupId = "com.afoxplus.android"
     const val artifactId = "home"
-    const val version = "6.0.0"
+    const val versionName = "6.0.1"
+    const val organization = "afoxplus"
+    const val projectName = "app-android-home"
 }
