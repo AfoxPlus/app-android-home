@@ -4,22 +4,21 @@ import com.afoxplus.home.usecases.actions.SetContextWithDelivery
 import com.afoxplus.home.utils.RESTAURANT_NAME
 import com.afoxplus.home.utils.RESTAURANT_NO_TABLE
 import com.afoxplus.home.utils.RESTAURANT_OWN_DELIVERY
-import com.afoxplus.restaurants.entities.Restaurant
-import com.afoxplus.restaurants.usecases.actions.SetToContextRestaurant
+import com.afoxplus.restaurants.delivery.models.RestaurantEventModel
 import com.afoxplus.uikit.objects.vendor.PaymentMethod
 import com.afoxplus.uikit.objects.vendor.Vendor
 import com.afoxplus.uikit.objects.vendor.VendorShared
 import javax.inject.Inject
 
 internal class SetContextWithDeliveryUseCase @Inject constructor(
-    private val setToContextRestaurant: SetToContextRestaurant,
+    //private val setToContextRestaurant: SetToContextRestaurant,
     private val vendorShared: VendorShared
 ) :
     SetContextWithDelivery {
 
-    override fun invoke(restaurant: Restaurant) {
-        setToContextRestaurant(restaurant)
-        val vendor = Vendor(
+    override fun invoke(restaurant: RestaurantEventModel) {
+        // setToContextRestaurant(restaurant)
+        /*val vendor = Vendor(
             tableId = RESTAURANT_NO_TABLE,
             restaurantId = restaurant.code,
             additionalInfo = mutableMapOf(
@@ -29,7 +28,7 @@ internal class SetContextWithDeliveryUseCase @Inject constructor(
             paymentMethod = restaurant.paymentMethods.map {
                 PaymentMethod(it.id, it.paymentName, it.isSelected)
             }
-        )
-        vendorShared.save(vendor)
+        )*/
+        //vendorShared.save(vendor)
     }
 }

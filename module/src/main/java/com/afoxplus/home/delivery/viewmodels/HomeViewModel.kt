@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.afoxplus.home.usecases.actions.SetContextFromScanQR
 import com.afoxplus.home.usecases.actions.SetContextWithDelivery
-import com.afoxplus.restaurants.entities.Restaurant
+import com.afoxplus.restaurants.delivery.models.RestaurantEventModel
 import com.afoxplus.uikit.bus.UIKitEventBusWrapper
 import com.afoxplus.uikit.di.UIKitCoroutineDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,7 +31,7 @@ internal class HomeViewModel @Inject constructor(
         mNavigation.emit(Navigation.GoToMarketOrder)
     }
 
-    fun setContextDeliveryAndGoToMarket(restaurant: Restaurant) =
+    fun setContextDeliveryAndGoToMarket(restaurant: RestaurantEventModel) =
         viewModelScope.launch(coroutines.getMainDispatcher()) {
             setContextWithDelivery(restaurant)
             mNavigation.emit(Navigation.GoToMarketOrder)

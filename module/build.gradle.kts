@@ -100,7 +100,6 @@ android {
 }
 
 dependencies {
-    implementation(fileTree("libs") { include(listOf("*.jar", "*.aar")) })
     implementation(Deps.Jetpack.kotlin)
     implementation(Deps.Jetpack.core)
     implementation(Deps.Jetpack.appcompat)
@@ -116,8 +115,11 @@ dependencies {
     implementation(Deps.JetpackCompose.ui)
     implementation(Deps.JetpackCompose.graphics)
     implementation(Deps.JetpackCompose.toolingPreview)
+    debugImplementation(Deps.JetpackCompose.tooling)
     implementation(Deps.JetpackCompose.material3)
     implementation(Deps.JetpackCompose.materialIconExtended)
+    implementation(Deps.JetpackCompose.coilCompose)
+    implementation(Deps.JetpackCompose.hiltNavigationCompose)
 
     // External Libraries
     implementation(Deps.Arch.hiltAndroid)
