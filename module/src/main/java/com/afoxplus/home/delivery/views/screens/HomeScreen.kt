@@ -19,6 +19,7 @@ import com.afoxplus.uikit.designsystem.atoms.UIKitText
 import com.afoxplus.uikit.designsystem.foundations.UIKitColorTheme
 import com.afoxplus.uikit.designsystem.foundations.UIKitIconTheme
 import com.afoxplus.uikit.designsystem.foundations.UIKitTheme
+import com.afoxplus.uikit.designsystem.foundations.UIKitTypographyTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,18 +38,24 @@ internal fun HomeScreen(onClickScan: () -> Unit, restaurantsContent: @Composable
                     UIKitIcon(icon = UIKitIconTheme.icon_whatsapp_outline)
                 }
             },
-            topBar = { TopAppBar(title = { UIKitText(text = stringResource(id = R.string.home_title)) }) }) {
+            topBar = {
+                TopAppBar(title = {
+                    UIKitText(
+                        text = stringResource(id = R.string.home_title),
+                        style = UIKitTypographyTheme.header04Bold
+                    )
+                })
+            }) {
             Box(modifier = Modifier.padding(it)) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = UIKitTheme.spacing.spacing16)
+                        .padding(top = UIKitTheme.spacing.spacing12)
                 ) {
                     item {
                         restaurantsContent()
                     }
                 }
-
             }
         }
     }
