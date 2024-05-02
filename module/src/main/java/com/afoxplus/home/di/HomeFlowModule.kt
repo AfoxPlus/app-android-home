@@ -9,7 +9,7 @@ import dagger.hilt.android.components.ActivityComponent
 
 @Module
 @InstallIn(ActivityComponent::class)
-abstract class HomeFlowModule {
+internal abstract class HomeFlowModule {
     @Binds
     abstract fun bindHomeFlow(homeFlowAction: HomeFlowAction): HomeFlow
 }

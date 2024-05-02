@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.afoxplus.home.R
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
 import com.afoxplus.home.delivery.views.screens.HomeScreen
@@ -14,6 +15,8 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,9 +58,18 @@ class HomeActivity : UIKitBaseActivity() {
     }
 
     override fun setUpView() {
-        //Nothing
+        lifecycleScope.launch {
+            viewModel.navigation.collectLatest { navigation ->
+                when (navigation) {
+                    is HomeViewModel.Navigation.GoToMarketOrder -> {
+                        orderFlow.goToMarketOrderActivity(
+                            this@HomeActivity
+                        )
+                    }
+                }
+            }
+        }
     }
-
 
     private fun openScan() {
         val options = ScanOptions().apply {

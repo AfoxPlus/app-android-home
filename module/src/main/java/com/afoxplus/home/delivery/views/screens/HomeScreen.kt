@@ -52,9 +52,7 @@ internal fun HomeScreen(onClickScan: () -> Unit, restaurantsContent: @Composable
                         .fillMaxSize()
                         .padding(top = UIKitTheme.spacing.spacing12)
                 ) {
-                    item {
-                        restaurantsContent()
-                    }
+                    item { restaurantsContent() }
                 }
             }
         }
