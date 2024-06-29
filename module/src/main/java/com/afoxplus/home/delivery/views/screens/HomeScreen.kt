@@ -61,9 +61,7 @@ internal fun HomeScreen(
         content = {
             LazyColumn(
                 contentPadding = it,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = UIKitTheme.spacing.spacing16)
+                modifier = Modifier.fillMaxSize()
             ) {
                 item { ordersStatusContent() }
                 item { restaurantsContent() }
