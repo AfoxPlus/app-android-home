@@ -4,13 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.afoxplus.home.R
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
 import com.afoxplus.home.delivery.views.screens.HomeScreen
 import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
 import com.afoxplus.uikit.activities.UIKitBaseActivity
+import com.afoxplus.uikit.designsystem.foundations.UIKitTheme
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -47,10 +50,16 @@ class HomeActivity : UIKitBaseActivity() {
 
     override fun setMainView() {
         setContent {
-            HomeScreen(onClickScan = { openScan() }) {
-                restaurantFlow.RestaurantsComponent(
-                    onClickRestaurantHome = {
-                        orderFlow.goToMarketOrderActivity(this)
+            UIKitTheme {
+                HomeScreen(
+                    viewModel = viewModel,
+                    onClickScan = { openScan() },
+                    restaurantsContent = {
+                        restaurantFlow.RestaurantsComponent(
+                            onClickRestaurantHome = {
+                                orderFlow.goToMarketOrderActivity(this)
+                            }
+                        )
                     }
                 )
             }
@@ -59,12 +68,14 @@ class HomeActivity : UIKitBaseActivity() {
 
     override fun setUpView() {
         lifecycleScope.launch {
-            viewModel.navigation.collectLatest { navigation ->
-                when (navigation) {
-                    is HomeViewModel.Navigation.GoToMarketOrder -> {
-                        orderFlow.goToMarketOrderActivity(
-                            this@HomeActivity
-                        )
+            repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+                viewModel.navigation.collectLatest { navigation ->
+                    when (navigation) {
+                        is HomeViewModel.Navigation.GoToMarketOrder -> {
+                            orderFlow.goToMarketOrderActivity(
+                                this@HomeActivity
+                            )
+                        }
                     }
                 }
             }
