@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_scan_prompt">Scan a Restaurant</string>
+    <string name="home_scan_prompt">Escanear un restaurante</string>
+    <string name="home_title">YaListo</string>
 </resources>

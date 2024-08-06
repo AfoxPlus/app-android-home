@@ -1,46 +1,36 @@
 package com.afoxplus.home.delivery.viewmodels
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.afoxplus.home.usecases.actions.SetContextFromScanQR
-import com.afoxplus.home.usecases.actions.SetContextWithDelivery
-import com.afoxplus.home.utils.TestCoroutineRule
-import com.afoxplus.home.utils.UIKitCoroutineDispatcherTest
-import com.afoxplus.uikit.bus.UIKitEventBusWrapper
-import com.afoxplus.uikit.di.UIKitCoroutineDispatcher
+import com.afoxplus.home.utils.BaseViewModelTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Rule
-import org.mockito.kotlin.mock
+import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class HomeViewModelTest {
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    val testCoroutineRule = TestCoroutineRule()
-
-    private val mockProductEventBus: UIKitEventBusWrapper = mock()
-
-    private val mockSetContextFromScanQR: SetContextFromScanQR = mock()
-
-    private val setContextWithDelivery: SetContextWithDelivery = mock()
-
-    private lateinit var sutHomeVieWModel: HomeViewModel
-
-    private lateinit var coroutines: UIKitCoroutineDispatcher
+class HomeViewModelTest : BaseViewModelTest() {
+    private lateinit var homeVieWModel: HomeViewModel
 
     @Before
     fun setup() {
-        coroutines = UIKitCoroutineDispatcherTest()
-        sutHomeVieWModel = HomeViewModel(
-            mockProductEventBus,
-            mockSetContextFromScanQR,
-            setContextWithDelivery,
-            coroutines
-        )
+        homeVieWModel = HomeViewModel(testDispatcherProvider)
     }
 
+
+    @Test
+    fun `should show snackbar when scan is error`() {
+        runTest {
+            val results = mutableListOf<String>()
+            val job = launch(testDispatcher) {
+                homeVieWModel.snackbarContent.toList(results)
+            }
+            homeVieWModel.onScanResponse(data = "some data")
+
+            val expected = "No se detectó ningún código QR valido"
+            assert(expected == results.last())
+            job.cancel()
+        }
+    }
 
 }
