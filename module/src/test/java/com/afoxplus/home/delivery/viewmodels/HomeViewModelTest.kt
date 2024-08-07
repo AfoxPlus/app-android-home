@@ -1,16 +1,18 @@
 package com.afoxplus.home.delivery.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.afoxplus.home.usecases.actions.SetContextFromScanQR
-import com.afoxplus.home.usecases.actions.SetContextWithDelivery
+import com.afoxplus.home.domain.usecases.SetRestaurantToCreateOrder
 import com.afoxplus.home.utils.TestCoroutineRule
 import com.afoxplus.home.utils.UIKitCoroutineDispatcherTest
 import com.afoxplus.uikit.bus.UIKitEventBusWrapper
 import com.afoxplus.uikit.di.UIKitCoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
@@ -23,9 +25,7 @@ class HomeViewModelTest {
 
     private val mockProductEventBus: UIKitEventBusWrapper = mock()
 
-    private val mockSetContextFromScanQR: SetContextFromScanQR = mock()
-
-    private val setContextWithDelivery: SetContextWithDelivery = mock()
+    private val mockSetRestaurantToCreateOrder: SetRestaurantToCreateOrder = mock()
 
     private lateinit var sutHomeVieWModel: HomeViewModel
 
@@ -36,11 +36,19 @@ class HomeViewModelTest {
         coroutines = UIKitCoroutineDispatcherTest()
         sutHomeVieWModel = HomeViewModel(
             mockProductEventBus,
-            mockSetContextFromScanQR,
-            setContextWithDelivery,
+            mockSetRestaurantToCreateOrder,
             coroutines
         )
     }
 
+
+    @Test
+    fun `should set restaurant to context from scan data`() {
+        runTest {
+            val data = "{restaurant}"
+            sutHomeVieWModel.onScanResponse(data)
+            verify(mockSetRestaurantToCreateOrder).invoke(data)
+        }
+    }
 
 }

@@ -100,11 +100,11 @@ class HomeActivity : UIKitBaseActivity() {
             viewModel.onEventBusListener.collect { events ->
                 when (events) {
                     is OnClickRestaurantHomeEvent -> {
-                        openScan()
+                        viewModel.setRestaurantFromTable(events.restaurant)
                     }
 
                     is OnClickDeliveryEvent -> {
-                        viewModel.setContextDeliveryAndGoToMarket(events.restaurant)
+                        viewModel.setRestaurantFromDelivery(events.restaurant)
                     }
                 }
             }
