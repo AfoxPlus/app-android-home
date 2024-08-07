@@ -1,7 +1,7 @@
 package com.afoxplus.home.delivery.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.afoxplus.home.usecases.SetRestaurantToCreateOrder
+import com.afoxplus.home.domain.usecases.SetRestaurantToCreateOrder
 import com.afoxplus.home.utils.TestCoroutineRule
 import com.afoxplus.home.utils.UIKitCoroutineDispatcherTest
 import com.afoxplus.uikit.bus.UIKitEventBusWrapper

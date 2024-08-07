@@ -3,7 +3,7 @@ package com.afoxplus.home.delivery.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.afoxplus.home.domain.entities.RestaurantOrderType
-import com.afoxplus.home.usecases.SetRestaurantToCreateOrder
+import com.afoxplus.home.domain.usecases.SetRestaurantToCreateOrder
 import com.afoxplus.restaurants.entities.Restaurant
 import com.afoxplus.uikit.bus.UIKitEventBusWrapper
 import com.afoxplus.uikit.di.UIKitCoroutineDispatcher

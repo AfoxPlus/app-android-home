@@ -1,11 +1,11 @@
-package com.afoxplus.home.usecases
+package com.afoxplus.home.domain.usecases
 
 import com.afoxplus.home.domain.entities.RestaurantOrderType
-import com.afoxplus.home.utils.Converts
-import com.afoxplus.home.utils.RESTAURANT_NAME
-import com.afoxplus.home.utils.RESTAURANT_NO_TABLE
-import com.afoxplus.home.utils.RESTAURANT_ORDER_TYPE
-import com.afoxplus.home.utils.RESTAURANT_OWN_DELIVERY
+import com.afoxplus.home.cross.utils.Converts
+import com.afoxplus.home.cross.utils.RESTAURANT_NAME
+import com.afoxplus.home.cross.utils.RESTAURANT_NO_TABLE
+import com.afoxplus.home.cross.utils.RESTAURANT_ORDER_TYPE
+import com.afoxplus.home.cross.utils.RESTAURANT_OWN_DELIVERY
 import com.afoxplus.restaurants.entities.Restaurant
 import com.afoxplus.restaurants.usecases.FindAndSetToContextRestaurantUseCase
 import com.afoxplus.restaurants.usecases.actions.SetToContextRestaurant

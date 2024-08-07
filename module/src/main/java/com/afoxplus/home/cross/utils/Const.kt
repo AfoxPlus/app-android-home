@@ -1,4 +1,4 @@
-package com.afoxplus.home.utils
+package com.afoxplus.home.cross.utils
 
 const val RESTAURANT_NAME = "restaurant_name"
 const val RESTAURANT_OWN_DELIVERY = "restaurant_own_delivery"
