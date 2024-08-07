@@ -2,8 +2,8 @@ package com.afoxplus.home.delivery.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.afoxplus.home.usecases.actions.SetContextFromScanQR
-import com.afoxplus.home.usecases.actions.SetContextWithDelivery
+import com.afoxplus.home.domain.entities.RestaurantOrderType
+import com.afoxplus.home.usecases.SetRestaurantToCreateOrder
 import com.afoxplus.restaurants.entities.Restaurant
 import com.afoxplus.uikit.bus.UIKitEventBusWrapper
 import com.afoxplus.uikit.di.UIKitCoroutineDispatcher
@@ -16,8 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     private val eventBusListener: UIKitEventBusWrapper,
-    private val setContextFromScanQR: SetContextFromScanQR,
-    private val setContextWithDelivery: SetContextWithDelivery,
+    private val setRestaurantToCreateOrder: SetRestaurantToCreateOrder,
     private val coroutines: UIKitCoroutineDispatcher
 ) : ViewModel() {
 
@@ -26,14 +25,20 @@ internal class HomeViewModel @Inject constructor(
 
     val onEventBusListener = eventBusListener.listen()
 
-    fun onScanResponse(data: String) = viewModelScope.launch(coroutines.getMainDispatcher()) {
-        setContextFromScanQR(data)
+    fun onScanResponse(data: String) = viewModelScope.launch(coroutines.getIODispatcher()) {
+        setRestaurantToCreateOrder(data)
         mNavigation.emit(Navigation.GoToMarketOrder)
     }
 
-    fun setContextDeliveryAndGoToMarket(restaurant: Restaurant) =
+    fun setRestaurantFromDelivery(restaurant: Restaurant) =
         viewModelScope.launch(coroutines.getMainDispatcher()) {
-            setContextWithDelivery(restaurant)
+            setRestaurantToCreateOrder(restaurant, RestaurantOrderType.DELIVERY)
+            mNavigation.emit(Navigation.GoToMarketOrder)
+        }
+
+    fun setRestaurantFromTable(restaurant: Restaurant) =
+        viewModelScope.launch(coroutines.getMainDispatcher()) {
+            setRestaurantToCreateOrder(restaurant, RestaurantOrderType.TABLE)
             mNavigation.emit(Navigation.GoToMarketOrder)
         }
 
