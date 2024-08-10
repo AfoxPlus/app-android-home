@@ -1,5 +1,9 @@
 # app-android-home Changelog
 
+## Version 6.1.0
+## Added
+- Integrate with invitations module
+
 ## Version 6.0.1
 ## Added
 - Upgrade Java 11 to Java 17.
