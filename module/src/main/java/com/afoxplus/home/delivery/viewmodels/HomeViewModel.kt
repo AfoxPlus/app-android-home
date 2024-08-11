@@ -2,6 +2,11 @@ package com.afoxplus.home.delivery.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.afoxplus.home.cross.mapper.toScanType
+import com.afoxplus.home.cross.mapper.toVendor
+import com.afoxplus.home.cross.utils.Converts
+import com.afoxplus.home.delivery.views.models.ScanDataModel
+import com.afoxplus.home.delivery.views.models.ScanType
 import com.afoxplus.home.domain.entities.RestaurantOrderType
 import com.afoxplus.home.domain.usecases.SetRestaurantToCreateOrder
 import com.afoxplus.restaurants.entities.Restaurant
@@ -25,9 +30,21 @@ internal class HomeViewModel @Inject constructor(
 
     val onEventBusListener = eventBusListener.listen()
 
-    fun onScanResponse(data: String) = viewModelScope.launch(coroutines.getIODispatcher()) {
-        setRestaurantToCreateOrder(data)
-        mNavigation.emit(Navigation.GoToMarketOrder)
+    fun onScanResponse(data: String) {
+        viewModelScope.launch(coroutines.getIODispatcher()) {
+            try {
+                val scanDataModel = Converts.stringToObject<ScanDataModel>(data)
+                when (scanDataModel.toScanType()) {
+                    ScanType.TICKET -> mNavigation.emit(Navigation.GoToTicket(scanDataModel))
+                    ScanType.VENDOR -> {
+                        setRestaurantToCreateOrder(scanDataModel.toVendor())
+                        mNavigation.emit(Navigation.GoToMarketOrder)
+                    }
+                }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
+        }
     }
 
     fun setRestaurantFromDelivery(restaurant: Restaurant) =
@@ -51,5 +68,6 @@ internal class HomeViewModel @Inject constructor(
 
     sealed class Navigation {
         object GoToMarketOrder : Navigation()
+        data class GoToTicket(val ticket: ScanDataModel) : Navigation()
     }
 }

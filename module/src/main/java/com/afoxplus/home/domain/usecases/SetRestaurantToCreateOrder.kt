@@ -1,7 +1,6 @@
 package com.afoxplus.home.domain.usecases
 
 import com.afoxplus.home.domain.entities.RestaurantOrderType
-import com.afoxplus.home.cross.utils.Converts
 import com.afoxplus.home.cross.utils.RESTAURANT_NAME
 import com.afoxplus.home.cross.utils.RESTAURANT_NO_TABLE
 import com.afoxplus.home.cross.utils.RESTAURANT_ORDER_TYPE
@@ -37,9 +36,8 @@ internal class SetRestaurantToCreateOrder @Inject constructor(
         vendorShared.save(vendor)
     }
 
-    suspend operator fun invoke(scanData: String) {
+    suspend operator fun invoke(vendor: Vendor) {
         try {
-            val vendor = Converts.stringToObject<Vendor>(scanData)
             findRestaurantAndSetToContext(code = vendor.restaurantId).let { restaurant ->
                 vendor.additionalInfo = mutableMapOf(RESTAURANT_NAME to restaurant.name)
                 vendor.paymentMethod = restaurant.paymentMethods.map {
