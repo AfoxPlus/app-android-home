@@ -65,9 +65,9 @@ class SetRestaurantToCreateOrderTest {
     @Test
     fun `should set restaurant to create order from scan`() {
         runTest {
-            val scanData = "{\"tableId\":\"ASD123\",\"restaurantId\":\"123\"}"
+            val vendor = Vendor(tableId = "", restaurantId = "123")
             whenever(findRestaurantAndSetToContext.invoke("123")).thenReturn(restaurant)
-            setRestaurantToCreateOrder.invoke(scanData)
+            setRestaurantToCreateOrder.invoke(vendor)
             verify(vendorShared).save(any())
         }
     }

@@ -126,6 +126,13 @@ class HomeActivity : UIKitBaseActivity() {
                     HomeViewModel.Navigation.GoToMarketOrder -> orderFlow.goToMarketOrderActivity(
                         this@HomeActivity
                     )
+
+                    is HomeViewModel.Navigation.GoToTicket -> {
+                        invitationFlow.goToScanInvitationTicketActivity(
+                            this@HomeActivity,
+                            navigation.ticket.ticketCode.toString()
+                        )
+                    }
                 }
             }
         }

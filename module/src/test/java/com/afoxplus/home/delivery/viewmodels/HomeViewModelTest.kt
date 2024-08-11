@@ -7,12 +7,9 @@ import com.afoxplus.home.utils.UIKitCoroutineDispatcherTest
 import com.afoxplus.uikit.bus.UIKitEventBusWrapper
 import com.afoxplus.uikit.di.UIKitCoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
 
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
@@ -39,16 +36,6 @@ class HomeViewModelTest {
             mockSetRestaurantToCreateOrder,
             coroutines
         )
-    }
-
-
-    @Test
-    fun `should set restaurant to context from scan data`() {
-        runTest {
-            val data = "{restaurant}"
-            sutHomeVieWModel.onScanResponse(data)
-            verify(mockSetRestaurantToCreateOrder).invoke(data)
-        }
     }
 
 }
