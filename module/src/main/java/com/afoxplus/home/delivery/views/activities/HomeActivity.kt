@@ -14,6 +14,7 @@ import com.afoxplus.home.R
 import com.afoxplus.home.delivery.components.FragmentContainer
 import com.afoxplus.home.delivery.screens.HomeScreen
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
+import com.afoxplus.invitation.delivery.events.GotoRestaurantEvent
 import com.afoxplus.invitation.delivery.flows.InvitationFlow
 import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
@@ -105,6 +106,13 @@ class HomeActivity : UIKitBaseActivity() {
 
                     is OnClickDeliveryEvent -> {
                         viewModel.setRestaurantFromDelivery(events.restaurant)
+                    }
+
+                    is GotoRestaurantEvent -> {
+                        viewModel.setRestaurantFromInvitation(
+                            restaurantId = events.restaurantId,
+                            tableId = events.tableId
+                        )
                     }
                 }
             }

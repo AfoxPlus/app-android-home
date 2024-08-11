@@ -51,4 +51,22 @@ internal class SetRestaurantToCreateOrder @Inject constructor(
             ex.printStackTrace()
         }
     }
+
+    suspend operator fun invoke(restaurantId: String, tableId: String) {
+        try {
+            val vendor = Vendor(restaurantId = restaurantId, tableId = tableId)
+            findRestaurantAndSetToContext(code = vendor.restaurantId).let { restaurant ->
+                vendor.additionalInfo = mutableMapOf(
+                    RESTAURANT_NAME to restaurant.name,
+                    RESTAURANT_ORDER_TYPE to RestaurantOrderType.TABLE
+                )
+                vendor.paymentMethod = restaurant.paymentMethods.map {
+                    PaymentMethod(it.id, it.paymentName, it.isSelected)
+                }
+                vendorShared.save(vendor)
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+    }
 }

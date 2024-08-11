@@ -42,6 +42,13 @@ internal class HomeViewModel @Inject constructor(
             mNavigation.emit(Navigation.GoToMarketOrder)
         }
 
+    fun setRestaurantFromInvitation(restaurantId: String, tableId: String) {
+        viewModelScope.launch(coroutines.getMainDispatcher()) {
+            setRestaurantToCreateOrder(restaurantId, tableId)
+            mNavigation.emit(Navigation.GoToMarketOrder)
+        }
+    }
+
     sealed class Navigation {
         object GoToMarketOrder : Navigation()
     }
