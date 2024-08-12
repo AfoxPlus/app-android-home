@@ -15,7 +15,7 @@
         android:theme="@style/UIKit.Theme">
 
         <activity
-            android:name=".delivery.views.activites.MainActivity"
+            android:name=".delivery.views.activities.MainActivity"
             android:exported="true"
             android:theme="@style/UIKit.NoActionBar.Light" />
 

@@ -8,11 +8,7 @@
     <application>
         <activity
             android:name="com.afoxplus.home.delivery.views.activities.HomeActivity"
-            android:exported="false"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/UIKit.NoActionBar.Light"
-            tools:replace="screenOrientation" />
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
     </application>
 
 </manifest>

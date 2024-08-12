@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".delivery.views.activites.MainActivity">
+        tools:context=".delivery.views.activities.MainActivity">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
