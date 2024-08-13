@@ -100,10 +100,10 @@ android {
 }
 
 dependencies {
-    implementation(fileTree("libs") { include(listOf("*.jar", "*.aar")) })
     implementation(Deps.Jetpack.kotlin)
     implementation(Deps.Jetpack.core)
     implementation(Deps.Jetpack.appcompat)
+    implementation(Deps.Jetpack.activity)
     implementation(Deps.Jetpack.fragment)
     implementation(Deps.UI.materialDesign)
     implementation(Deps.UI.constraintLayout)

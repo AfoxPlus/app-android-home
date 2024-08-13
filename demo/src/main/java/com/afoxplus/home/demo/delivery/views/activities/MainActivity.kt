@@ -1,11 +1,12 @@
-package com.afoxplus.home.demo.delivery.views.activites
+package com.afoxplus.home.demo.delivery.views.activities
 
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import com.afoxplus.home.delivery.views.activities.HomeActivity
+import com.afoxplus.home.delivery.flow.HomeFlow
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -13,13 +14,15 @@ class MainActivity : AppCompatActivity() {
     private val handler: Handler = Handler(Looper.getMainLooper())
     private lateinit var runnable: Runnable
 
+    @Inject
+    lateinit var homeFlow: HomeFlow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         runnable = Runnable {
             if (!isFinishing) {
-                HomeActivity.newStartActivity(this)
+                homeFlow.goToHome(this)
                 finish()
             }
         }

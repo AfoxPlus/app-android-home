@@ -2,8 +2,11 @@ package com.afoxplus.home.delivery.views.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
@@ -20,7 +23,6 @@ import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
 import com.afoxplus.restaurants.delivery.views.events.OnClickDeliveryEvent
 import com.afoxplus.restaurants.delivery.views.events.OnClickRestaurantHomeEvent
-import com.afoxplus.uikit.activities.UIKitBaseActivity
 import com.afoxplus.uikit.designsystem.foundations.UIKitTheme
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -31,7 +33,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeActivity : UIKitBaseActivity() {
+internal class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -52,14 +54,9 @@ class HomeActivity : UIKitBaseActivity() {
     lateinit var invitationFlow: InvitationFlow
 
 
-    companion object {
-        fun newStartActivity(activity: Activity) {
-            val intent = Intent(activity, HomeActivity::class.java)
-            activity.startActivity(intent)
-        }
-    }
-
-    override fun setMainView() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             UIKitTheme {
                 HomeScreen(
@@ -84,14 +81,6 @@ class HomeActivity : UIKitBaseActivity() {
             }
 
         }
-    }
-
-    override fun setUpView() {
-        //Nothing
-    }
-
-
-    override fun observerViewModel() {
         collectEventBus()
         collectNavigation()
     }
@@ -154,4 +143,13 @@ class HomeActivity : UIKitBaseActivity() {
     private fun analyzeScanResponse(data: String) {
         data.isNotEmpty().let { viewModel.onScanResponse(data) }
     }
+
+
+    companion object {
+        fun newStartActivity(activity: Activity) {
+            val intent = Intent(activity, HomeActivity::class.java)
+            activity.startActivity(intent)
+        }
+    }
+
 }

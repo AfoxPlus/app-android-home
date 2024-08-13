@@ -8,7 +8,7 @@ interface HomeFlow {
     fun goToHome(activity: Activity)
 }
 
-class HomeFlowAction @Inject constructor() : HomeFlow {
+internal class HomeFlowAction @Inject constructor() : HomeFlow {
     override fun goToHome(activity: Activity) {
         HomeActivity.newStartActivity(activity)
     }
