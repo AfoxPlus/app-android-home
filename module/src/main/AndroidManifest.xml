@@ -8,7 +8,7 @@
     <application>
         <activity
             android:name="com.afoxplus.home.delivery.views.activities.HomeActivity"
-            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+            android:theme="@style/UIKit.NoActionBar.Light" />
     </application>
 
 </manifest>
