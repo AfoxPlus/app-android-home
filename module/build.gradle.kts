@@ -100,15 +100,17 @@ android {
 }
 
 dependencies {
+    //Jetpack
     implementation(Deps.Jetpack.kotlin)
     implementation(Deps.Jetpack.core)
     implementation(Deps.Jetpack.appcompat)
-    implementation(Deps.Jetpack.activity)
     implementation(Deps.Jetpack.fragment)
+
+    //Jetpack UI
     implementation(Deps.UI.materialDesign)
     implementation(Deps.UI.constraintLayout)
 
-    // JetpackCompose
+    // Jetpack Compose
     implementation(Deps.JetpackCompose.activity)
     implementation(Deps.JetpackCompose.constraintlayout)
     implementation(Deps.JetpackCompose.navigation)
@@ -119,30 +121,45 @@ dependencies {
     debugImplementation(Deps.JetpackCompose.tooling)
     implementation(Deps.JetpackCompose.material3)
     implementation(Deps.JetpackCompose.materialIconExtended)
+    //Image Async
     implementation(Deps.JetpackCompose.coilCompose)
-    implementation(Deps.JetpackCompose.hiltNavigationCompose)
-
-    // External Libraries
-    implementation(Deps.Arch.hiltAndroid)
-    kapt(Deps.Arch.hiltCompiler)
-    implementation(Deps.Arch.coroutinesCore)
-    implementation(Deps.Arch.retrofit2)
-    implementation(Deps.Arch.loggingInterceptor)
-    implementation(Deps.Arch.gson)
     implementation(Deps.UI.glide)
     kapt(Deps.UI.glideCompiler)
+
+    // Coroutines
+    implementation(Deps.Arch.coroutinesCore)
+    implementation(Deps.Arch.coroutinesAndroid)
+
+    //Lifecycle Scope
+    implementation(Deps.Arch.lifecycleRuntime)
+    implementation(Deps.Arch.lifecycleViewModel)
+    implementation(Deps.Arch.lifecycleCompose)
+    implementation(Deps.Arch.lifecycleRuntimeCompose)
+
+    // Dagger - Hilt
+    implementation(Deps.Arch.hiltAndroid)
+    kapt(Deps.Arch.hiltAndroidCompiler)
+    implementation(Deps.JetpackCompose.hiltNavigationCompose)
+    kapt(Deps.Arch.hiltCompiler)
+
+    //Retrofit
+    implementation(Deps.Arch.retrofit2)
+    implementation(Deps.Arch.gson)
+    implementation(Deps.Arch.loggingInterceptor)
+
+    //Scan
     implementation(Deps.Arch.zxingAndroid) { isTransitive = false }
     implementation(Deps.Arch.zxingCore)
 
     // Test
     testImplementation(Deps.Test.jUnit)
+    testImplementation(Deps.Test.testCore)
+    testImplementation(Deps.Test.truth)
+    testImplementation(Deps.Test.mockitoKotlin)
+    testImplementation(Deps.Test.kotlinCoroutine)
+    testImplementation(Deps.Test.mockitoInline)
     androidTestImplementation(Deps.Test.androidJUnit)
     androidTestImplementation(Deps.Test.espresso)
-    testImplementation(Deps.Test.mockito)
-    testImplementation(Deps.Test.mockitoKotlin)
-    testImplementation(Deps.Test.mockitoInline)
-    testImplementation(Deps.Test.testCore)
-    testImplementation(Deps.Test.kotlinCoroutine)
 
     // Business Dependencies
     implementation(Deps.UI.uikit)
