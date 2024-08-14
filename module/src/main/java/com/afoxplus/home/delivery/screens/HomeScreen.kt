@@ -2,6 +2,7 @@ package com.afoxplus.home.delivery.screens
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -39,6 +40,7 @@ internal fun HomeScreen(
             }
         },
         topBar = {
+
             TopAppBar(title = {
                 UIKitText(
                     text = stringResource(id = R.string.app_name_top_app_bar),
@@ -48,6 +50,7 @@ internal fun HomeScreen(
         },
         content = {
             LazyColumn(
+                state= rememberLazyListState(),
                 contentPadding = it,
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -57,6 +60,5 @@ internal fun HomeScreen(
             }
         }
     )
-
 
 }
