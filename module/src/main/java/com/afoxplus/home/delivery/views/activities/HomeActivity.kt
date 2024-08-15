@@ -17,6 +17,7 @@ import com.afoxplus.home.R
 import com.afoxplus.home.delivery.components.FragmentContainer
 import com.afoxplus.home.delivery.screens.HomeScreen
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
+import com.afoxplus.invitation.delivery.components.banner.InvitationHomeBanner
 import com.afoxplus.invitation.delivery.events.GotoRestaurantEvent
 import com.afoxplus.invitation.delivery.flows.InvitationFlow
 import com.afoxplus.orders.delivery.flow.OrderFlow
@@ -60,9 +61,7 @@ internal class HomeActivity : AppCompatActivity() {
         setContent {
             UIKitTheme {
                 HomeScreen(
-                    bannerInvitationContent = {
-                        invitationFlow.InvitationHomeBannerComponent()
-                    },
+                    bannerInvitationContent = { InvitationHomeBanner() },
                     ordersStatusContent = {
                         Box(modifier = Modifier.padding(top = UIKitTheme.spacing.spacing12)) {
                             FragmentContainer(
