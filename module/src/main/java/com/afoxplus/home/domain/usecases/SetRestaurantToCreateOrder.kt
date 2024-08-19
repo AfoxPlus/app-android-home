@@ -1,5 +1,6 @@
 package com.afoxplus.home.domain.usecases
 
+import com.afoxplus.home.cross.utils.INVITATION_GUEST_NAME
 import com.afoxplus.home.domain.entities.RestaurantOrderType
 import com.afoxplus.home.cross.utils.RESTAURANT_NAME
 import com.afoxplus.home.cross.utils.RESTAURANT_NO_TABLE
@@ -50,13 +51,14 @@ internal class SetRestaurantToCreateOrder @Inject constructor(
         }
     }
 
-    suspend operator fun invoke(restaurantId: String, tableId: String) {
+    suspend operator fun invoke(restaurantId: String, tableId: String, guestName: String) {
         try {
             val vendor = Vendor(restaurantId = restaurantId, tableId = tableId)
             findRestaurantAndSetToContext(code = vendor.restaurantId).let { restaurant ->
                 vendor.additionalInfo = mutableMapOf(
                     RESTAURANT_NAME to restaurant.name,
-                    RESTAURANT_ORDER_TYPE to RestaurantOrderType.TABLE
+                    RESTAURANT_ORDER_TYPE to RestaurantOrderType.TABLE,
+                    INVITATION_GUEST_NAME to guestName
                 )
                 vendor.paymentMethod = restaurant.paymentMethods.map {
                     PaymentMethod(it.id, it.paymentName, it.isSelected)

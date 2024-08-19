@@ -18,7 +18,7 @@ import com.afoxplus.home.delivery.components.FragmentContainer
 import com.afoxplus.home.delivery.screens.HomeScreen
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
 import com.afoxplus.invitation.delivery.components.banner.InvitationHomeBanner
-import com.afoxplus.invitation.delivery.events.GotoRestaurantEvent
+import com.afoxplus.invitation.delivery.events.InvitationToRestaurantEvent
 import com.afoxplus.invitation.delivery.flows.InvitationFlow
 import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
@@ -96,10 +96,11 @@ internal class HomeActivity : AppCompatActivity() {
                         viewModel.setRestaurantFromDelivery(events.restaurant)
                     }
 
-                    is GotoRestaurantEvent -> {
+                    is InvitationToRestaurantEvent -> {
                         viewModel.setRestaurantFromInvitation(
                             restaurantId = events.restaurantId,
-                            tableId = events.tableId
+                            tableId = events.tableId,
+                            guestName = events.guestName
                         )
                     }
                 }
