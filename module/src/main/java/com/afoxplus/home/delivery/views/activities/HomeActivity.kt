@@ -112,7 +112,7 @@ internal class HomeActivity : AppCompatActivity() {
         repeatOnLifecycle(Lifecycle.State.CREATED) {
             viewModel.navigation.collectLatest { navigation ->
                 when (navigation) {
-                    HomeViewModel.Navigation.GoToMarketOrder -> orderFlow.goToMarketOrderActivity(
+                    HomeViewModel.Navigation.GoToMarketOrder -> orderFlow.goToLandingEstablishmentActivity(
                         this@HomeActivity
                     )
 
