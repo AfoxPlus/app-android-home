@@ -25,7 +25,6 @@ import com.afoxplus.uikit.designsystem.foundations.UIKitTypographyTheme
 @Composable
 internal fun HomeScreen(
     onClickScan: () -> Unit,
-    bannerInvitationContent: @Composable () -> Unit = {},
     ordersStatusContent: @Composable () -> Unit = {},
     restaurantsContent: @Composable () -> Unit
 ) {
@@ -57,7 +56,6 @@ internal fun HomeScreen(
                     .fillMaxSize()
                     .padding(it)
             ) {
-                bannerInvitationContent()
                 ordersStatusContent()
                 restaurantsContent()
             }

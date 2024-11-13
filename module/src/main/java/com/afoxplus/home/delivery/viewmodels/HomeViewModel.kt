@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.afoxplus.home.cross.mapper.toScanType
 import com.afoxplus.home.cross.mapper.toVendor
 import com.afoxplus.home.cross.utils.Converts.getScanDataModelFromUri
-import com.afoxplus.home.delivery.views.models.ScanDataModel
 import com.afoxplus.home.delivery.views.models.ScanType
 import com.afoxplus.home.domain.entities.RestaurantOrderType
 import com.afoxplus.home.domain.usecases.SetRestaurantToCreateOrder
@@ -35,7 +34,9 @@ internal class HomeViewModel @Inject constructor(
             try {
                 getScanDataModelFromUri(data)?.let { scanDataModel ->
                     when (scanDataModel.toScanType()) {
-                        ScanType.TICKET -> mNavigation.emit(Navigation.GoToTicket(scanDataModel))
+                        ScanType.TICKET -> {
+                            //Nothing
+                        }
                         ScanType.VENDOR -> {
                             setRestaurantToCreateOrder(scanDataModel.toVendor())
                             mNavigation.emit(Navigation.GoToMarketOrder)
@@ -60,15 +61,7 @@ internal class HomeViewModel @Inject constructor(
             mNavigation.emit(Navigation.GoToMarketOrder)
         }
 
-    fun setRestaurantFromInvitation(restaurantId: String, tableId: String, guestName: String) {
-        viewModelScope.launch(coroutines.getMainDispatcher()) {
-            setRestaurantToCreateOrder(restaurantId, tableId,guestName)
-            mNavigation.emit(Navigation.GoToMarketOrder)
-        }
-    }
-
     sealed class Navigation {
         object GoToMarketOrder : Navigation()
-        data class GoToTicket(val ticket: ScanDataModel) : Navigation()
     }
 }
