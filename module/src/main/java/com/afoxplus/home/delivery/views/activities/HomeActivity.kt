@@ -17,9 +17,6 @@ import com.afoxplus.home.R
 import com.afoxplus.home.delivery.components.FragmentContainer
 import com.afoxplus.home.delivery.screens.HomeScreen
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
-import com.afoxplus.invitation.delivery.components.banner.InvitationHomeBanner
-import com.afoxplus.invitation.delivery.events.InvitationToRestaurantEvent
-import com.afoxplus.invitation.delivery.flows.InvitationFlow
 import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
 import com.afoxplus.restaurants.delivery.views.events.OnClickDeliveryEvent
@@ -51,9 +48,6 @@ internal class HomeActivity : AppCompatActivity() {
     @Inject
     lateinit var orderFlow: OrderFlow
 
-    @Inject
-    lateinit var invitationFlow: InvitationFlow
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +55,6 @@ internal class HomeActivity : AppCompatActivity() {
         setContent {
             UIKitTheme {
                 HomeScreen(
-                    bannerInvitationContent = { InvitationHomeBanner() },
                     ordersStatusContent = {
                         Box(modifier = Modifier.padding(top = UIKitTheme.spacing.spacing12)) {
                             FragmentContainer(
@@ -95,14 +88,6 @@ internal class HomeActivity : AppCompatActivity() {
                     is OnClickDeliveryEvent -> {
                         viewModel.setRestaurantFromDelivery(events.restaurant)
                     }
-
-                    is InvitationToRestaurantEvent -> {
-                        viewModel.setRestaurantFromInvitation(
-                            restaurantId = events.restaurantId,
-                            tableId = events.tableId,
-                            guestName = events.guestName
-                        )
-                    }
                 }
             }
         }
@@ -112,16 +97,9 @@ internal class HomeActivity : AppCompatActivity() {
         repeatOnLifecycle(Lifecycle.State.CREATED) {
             viewModel.navigation.collectLatest { navigation ->
                 when (navigation) {
-                    HomeViewModel.Navigation.GoToMarketOrder -> orderFlow.goToMarketOrderActivity(
+                    HomeViewModel.Navigation.GoToMarketOrder -> orderFlow.goToLandingEstablishmentActivity(
                         this@HomeActivity
                     )
-
-                    is HomeViewModel.Navigation.GoToTicket -> {
-                        invitationFlow.goToScanInvitationTicketActivity(
-                            this@HomeActivity,
-                            navigation.ticket.ticketCode.toString()
-                        )
-                    }
                 }
             }
         }
