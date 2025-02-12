@@ -9,6 +9,12 @@
         <activity
             android:name="com.afoxplus.home.delivery.views.activities.HomeActivity"
             android:theme="@style/UIKit.NoActionBar.Light" />
+        <activity
+            android:name="com.afoxplus.home.delivery.views.activities.EstablishmentSummaryActivity"
+            android:theme="@style/UIKit.NoActionBar.Light" />
+        <activity
+            android:name="com.afoxplus.home.delivery.views.activities.EstablishmentPlaceActivity"
+            android:theme="@style/UIKit.NoActionBar.Light" />
     </application>
 
 </manifest>

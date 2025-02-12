@@ -101,6 +101,7 @@ dependencies {
     implementation(Deps.Jetpack.core)
     implementation(Deps.Jetpack.appcompat)
     implementation(Deps.Jetpack.fragment)
+    implementation(Deps.Jetpack.kotlinReflect)
 
     //Jetpack UI
     implementation(Deps.UI.materialDesign)
@@ -147,6 +148,11 @@ dependencies {
     implementation(Deps.Arch.zxingAndroid) { isTransitive = false }
     implementation(Deps.Arch.zxingCore)
 
+    //Map
+    implementation(Deps.Arch.map)
+    implementation(Deps.Arch.mapCompose)
+    implementation(Deps.Arch.mapLocation)
+
     // Chucker
     debugImplementation(Deps.Arch.chucker)
     "stagingImplementation"(Deps.Arch.chucker)
@@ -165,6 +171,8 @@ dependencies {
     implementation(Deps.Arch.restaurants)
     implementation(Deps.Arch.orders)
     implementation(Deps.Arch.invitations)
+    implementation(Deps.Arch.places)
+    implementation(Deps.Arch.bdui)
 
     implementation(project(mapOf("path" to ":module")))
 }

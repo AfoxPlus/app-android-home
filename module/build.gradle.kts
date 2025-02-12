@@ -167,4 +167,7 @@ dependencies {
     implementation(Deps.Arch.products)
     implementation(Deps.Arch.restaurants)
     implementation(Deps.Arch.orders)
+    implementation(Deps.Arch.bdui)
+    implementation(Deps.Arch.places)
+
 }

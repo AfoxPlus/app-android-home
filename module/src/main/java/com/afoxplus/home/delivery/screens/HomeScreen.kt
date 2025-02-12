@@ -1,11 +1,8 @@
 package com.afoxplus.home.delivery.screens
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -15,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.afoxplus.home.R
+import com.afoxplus.restaurants.delivery.views.screens.EstablishmentScreen
 import com.afoxplus.uikit.designsystem.atoms.UIKitIcon
 import com.afoxplus.uikit.designsystem.atoms.UIKitText
 import com.afoxplus.uikit.designsystem.foundations.UIKitColorTheme
@@ -23,11 +21,7 @@ import com.afoxplus.uikit.designsystem.foundations.UIKitTypographyTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun HomeScreen(
-    onClickScan: () -> Unit,
-    ordersStatusContent: @Composable () -> Unit = {},
-    restaurantsContent: @Composable () -> Unit
-) {
+internal fun HomeScreen(onClickScan: () -> Unit) {
     Scaffold(
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
@@ -50,15 +44,7 @@ internal fun HomeScreen(
             })
         },
         content = {
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxSize()
-                    .padding(it)
-            ) {
-                ordersStatusContent()
-                restaurantsContent()
-            }
+            EstablishmentScreen(modifier = Modifier.padding(it).fillMaxSize())
         }
     )
 

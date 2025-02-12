@@ -7,20 +7,17 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.afoxplus.home.R
-import com.afoxplus.home.delivery.components.FragmentContainer
 import com.afoxplus.home.delivery.screens.HomeScreen
 import com.afoxplus.home.delivery.viewmodels.HomeViewModel
 import com.afoxplus.orders.delivery.flow.OrderFlow
 import com.afoxplus.restaurants.delivery.flow.RestaurantFlow
 import com.afoxplus.restaurants.delivery.views.events.OnClickDeliveryEvent
 import com.afoxplus.restaurants.delivery.views.events.OnClickRestaurantHomeEvent
+import com.afoxplus.uikit.bus.OnClickDeeplinkEvent
 import com.afoxplus.uikit.designsystem.foundations.UIKitTheme
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -54,24 +51,8 @@ internal class HomeActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContent {
             UIKitTheme {
-                HomeScreen(
-                    ordersStatusContent = {
-                        Box(modifier = Modifier.padding(top = UIKitTheme.spacing.spacing12)) {
-                            FragmentContainer(
-                                fragmentManager = supportFragmentManager,
-                                commit = { add(it, orderFlow.getStateOrdersFragment()) }
-                            )
-                        }
-                    },
-                    restaurantsContent = {
-                        FragmentContainer(
-                            fragmentManager = supportFragmentManager,
-                            commit = { add(it, restaurantFlow.getRestaurantHomeFragment()) }
-                        )
-                    },
-                    onClickScan = { openScan() })
+                HomeScreen(onClickScan = { openScan() })
             }
-
         }
         collectEventBus()
         collectNavigation()
@@ -81,6 +62,10 @@ internal class HomeActivity : AppCompatActivity() {
         repeatOnLifecycle(Lifecycle.State.CREATED) {
             viewModel.onEventBusListener.collect { events ->
                 when (events) {
+                    is OnClickDeeplinkEvent -> {
+                        viewModel.handlerDeeplinkEvent(events.deeplink)
+                    }
+
                     is OnClickRestaurantHomeEvent -> {
                         viewModel.setRestaurantFromTable(events.restaurant)
                     }
@@ -97,7 +82,11 @@ internal class HomeActivity : AppCompatActivity() {
         repeatOnLifecycle(Lifecycle.State.CREATED) {
             viewModel.navigation.collectLatest { navigation ->
                 when (navigation) {
-                    HomeViewModel.Navigation.GoToMarketOrder -> orderFlow.goToLandingEstablishmentActivity(
+                    HomeViewModel.Navigation.GoToMarketOrder -> EstablishmentSummaryActivity.newStartActivity(
+                        this@HomeActivity
+                    )
+
+                    HomeViewModel.Navigation.GoToPlaces -> EstablishmentPlaceActivity.newStartActivity(
                         this@HomeActivity
                     )
                 }
