@@ -80,6 +80,13 @@ class SetRestaurantToCreateOrderTest {
         ownDelivery = false,
         paymentMethods = emptyList(),
         itemViewType = 0,
-        registrationState = RegistrationState("COD23", "NEW")
+        registrationState = RegistrationState("COD23", "NEW"),
+        primaryType = "",
+        urlImageBanner = "",
+        isOpen = false,
+        rating = 5.6f,
+        address = "",
+        hasSubscription = false,
+        phone = ""
     )
 }
