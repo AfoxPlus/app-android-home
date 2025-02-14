@@ -2,7 +2,6 @@
 
 ![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=afoxplus-app-android-home&metric=alert_status)
 ![GithubActions](https://github.com/afoxplus/app-android-home/actions/workflows/android_build.yml/badge.svg?branch=master)
-![GithubActions](https://github.com/afoxplus/app-android-home/actions/workflows/android_deploy.yml/badge.svg)
 
 app-android-home It is the bookstore that is in charge of showing the information of products, orders, restaurants, etc. in the home.
 
