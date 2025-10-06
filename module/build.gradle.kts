@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.jetbrains.kotlin.plugin.parcelize)
+    alias(libs.plugins.kotlin.compose)
     id("org.sonarqube") version "3.3"
     id("jacoco")
 }
@@ -17,12 +18,11 @@ apply {
 
 android {
     namespace = "com.afoxplus.home"
-    compileSdk = Versions.compileSdkVersion
+    compileSdk = ConfigureApp.Versions.compileSdkVersion
 
     defaultConfig {
-        minSdk = Versions.minSdkVersion
-        targetSdk = Versions.targetSdkVersion
-        testInstrumentationRunner = Versions.testInstrumentationRunner
+        minSdk = ConfigureApp.Versions.minSdkVersion
+        testInstrumentationRunner = ConfigureApp.Versions.testInstrumentationRunner
         consumerProguardFiles("consumer-rules.pro")
         renderscriptSupportModeEnabled = true
     }
@@ -59,16 +59,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
-
     buildFeatures {
         viewBinding = true
         dataBinding = true
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtensionVersion
     }
 
     lint {
@@ -161,12 +155,12 @@ dependencies {
     androidTestImplementation(Deps.Test.espresso)
 
     // Business Dependencies
-    implementation(Deps.UI.uikit)
-    implementation(Deps.Arch.network)
-    implementation(Deps.Arch.products)
-    implementation(Deps.Arch.restaurants)
-    implementation(Deps.Arch.orders)
-    implementation(Deps.Arch.bdui)
-    implementation(Deps.Arch.places)
+    implementation(project(":uikit"))
+    implementation(project(":network"))
+    implementation(project(":products"))
+    implementation(project(":restaurants"))
+    implementation(project(":orders"))
+    implementation(project(":places"))
+    implementation(project(":bdui"))
 
 }
