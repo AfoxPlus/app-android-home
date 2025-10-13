@@ -143,13 +143,13 @@ dependencies {
     testImplementation(libs.bundles.unit.test)
 
     // Business Dependencies
-    implementation(project(ModuleDependency.Core.DESIGN_SYSTEM))
-    implementation(project(ModuleDependency.Integration.NETWORK))
-    implementation(project(ModuleDependency.Feature.PRODUCTS))
-    implementation(project(ModuleDependency.Feature.RESTAURANTS))
-    implementation(project(ModuleDependency.Feature.ORDERS))
-    implementation(project(ModuleDependency.Feature.PLACES))
-    implementation(project(ModuleDependency.Integration.BDUI))
+    implementation(libs.yalisto.uikit)
+    implementation(libs.yalisto.network)
+    implementation(libs.yalisto.products)
+    implementation(libs.yalisto.restaurants)
+    implementation(libs.yalisto.orders)
+    implementation(libs.yalisto.places)
+    implementation(libs.yalisto.bdui)
 
     //Compose Debug
     debugImplementation(libs.compose.ui.tooling)
